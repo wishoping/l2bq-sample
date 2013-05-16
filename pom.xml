@@ -336,6 +336,13 @@
 			<version>1.1</version>
 		</dependency>
 		            
+		<dependency>
+			<groupId>com.google.api-services</groupId>
+			<artifactId>google-api-services-bigquery</artifactId>
+			<version>v2-rev18-1.7.2-beta</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/google-api-services-bigquery-v2-rev18-1.7.2-beta.jar</systemPath>
+		</dependency>
 		            
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
