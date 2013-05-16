@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+<!--
+  <cron>
+    <url>/cron/awake</url>
+    <description>Awake the app every N minutes</description>
+    <schedule>every 5 minutes</schedule>
+  </cron>
+-->
+
+   
+</cronentries>

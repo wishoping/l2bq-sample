@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<datastore-indexes autoGenerate="true">
+    <datastore-index kind="Player" ancestor="false">
+    	<property name="dnaPieceKeys" direction="asc"/>
+    	<property name="kaizinType" direction="asc"/>
+        <property name="randNum" direction="asc"/>
+        <property name="lv" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="Player" ancestor="false">
+    	<property name="dnaPieceKeys" direction="asc"/>
+        <property name="randNum" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="Player" ancestor="false">
+    	<property name="kaizinType" direction="asc"/>
+        <property name="lv" direction="asc"/>
+    </datastore-index>
+    
+    <datastore-index kind="PlayerLog" ancestor="true">
+    	<property name="type" direction="asc"/>
+    	<property name="time" direction="asc"/>
+    </datastore-index> 
+    <datastore-index kind="GiftBox" ancestor="true">
+        <property name="time" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="GM_GiftBox" ancestor="true">
+        <property name="time" direction="asc"/>
+    </datastore-index>
+    <!-- datastore-index kind="Version" ancestor="false">
+        <property name="clientRev" direction="desc"/>
+    </datastore-index-->
+</datastore-indexes>

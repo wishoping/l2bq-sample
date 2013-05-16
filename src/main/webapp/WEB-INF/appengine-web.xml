@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+
+    <application>l2bq-sample</application>
+    <version>1</version>
+    <!--
+	    Allows App Engine to send multiple requests to one instance in parallel:
+	  -->
+	<threadsafe>true</threadsafe>
+	
+    <resource-files> 
+        <include path="/**.txt" />
+        <include path="/**.xml" />
+        <include path="/**.properties" />
+    </resource-files> 
+  	
+    <!-- static-files>
+
+        <include path="/**.htm" expiration="1s" />
+        <include path="/**.png" expiration="1s" />
+        <include path="/**.woff" expiration="1s" />
+        <include path="/**.css" expiration="1s" />
+        <include path="/**.ttf" expiration="1s" />
+        <include path="/**.eot" expiration="1s" />
+    </static-files-->
+
+    <system-properties>
+        <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+    </system-properties>
+    
+    <precompilation-enabled>true</precompilation-enabled>
+    <admin-console>
+    	<page name="Appstats" url="/appstats" />
+  	</admin-console>
+</appengine-web-app>

@@ -1,0 +1,12 @@
+<<<<<<< HEAD
+eclipse.preferences.version=1
+jarsExcludedFromWebInfLib=
+launchConfigExternalUrlPrefix=
+warSrcDir=target/kaizinRumble-1.0.0
+warSrcDirIsOutput=true
+=======
+eclipse.preferences.version=1
+jarsExcludedFromWebInfLib=
+warSrcDir=target/kaizinRumble-1.0.0
+warSrcDirIsOutput=true
+>>>>>>> 304a03fbde149b93d8963a5b6c1526c2953eaa82
