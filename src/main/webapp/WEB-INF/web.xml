@@ -69,7 +69,7 @@
 
 	<servlet>
 		<servlet-name>LogExportCronTask</servlet-name>
-		<servlet-class>com.streak.logging.analysis.LogExportCronTask</servlet-class>
+		<servlet-class>com.l2bq.logging.analysis.LogExportCronTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>LogExportCronTask</servlet-name>
@@ -78,7 +78,7 @@
 
 	<servlet>
 		<servlet-name>StoreLogsInCloudStorageTask</servlet-name>
-		<servlet-class>com.streak.logging.analysis.StoreLogsInCloudStorageTask</servlet-class>
+		<servlet-class>com.l2bq.logging.analysis.StoreLogsInCloudStorageTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>StoreLogsInCloudStorageTask</servlet-name>
@@ -87,7 +87,7 @@
 
 	<servlet>
 		<servlet-name>LoadCloudStorageToBigqueryTask</servlet-name>
-		<servlet-class>com.streak.logging.analysis.LoadCloudStorageToBigqueryTask</servlet-class>
+		<servlet-class>com.l2bq.logging.analysis.LoadCloudStorageToBigqueryTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>LoadCloudStorageToBigqueryTask</servlet-name>
@@ -96,7 +96,7 @@
 
 	<servlet>
 		<servlet-name>DeleteCompletedCloudStorageFilesTask</servlet-name>
-		<servlet-class>com.streak.logging.analysis.DeleteCompletedCloudStorageFilesTask</servlet-class>
+		<servlet-class>com.l2bq.logging.analysis.DeleteCompletedCloudStorageFilesTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DeleteCompletedCloudStorageFilesTask</servlet-name>
@@ -105,7 +105,7 @@
 
 	<servlet>
 		<servlet-name>BigqueryStatusServlet</servlet-name>
-		<servlet-class>com.streak.logging.analysis.BigqueryStatusServlet</servlet-class>
+		<servlet-class>com.l2bq.logging.analysis.BigqueryStatusServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>BigqueryStatusServlet</servlet-name>
@@ -114,7 +114,7 @@
 
 	<servlet>
 		<servlet-name>DatastoreExportServlet</servlet-name>
-		<servlet-class>com.streak.datastore.analysis.DatastoreExportServlet</servlet-class>
+		<servlet-class>com.l2bq.datastore.analysis.DatastoreExportServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DatastoreExportServlet</servlet-name>
@@ -123,7 +123,7 @@
 
 	<servlet>
 		<servlet-name>BuiltinDatastoreToBigqueryCronTask</servlet-name>
-		<servlet-class>com.streak.datastore.analysis.builtin.BuiltinDatastoreToBigqueryCronTask</servlet-class>
+		<servlet-class>com.l2bq.datastore.analysis.builtin.BuiltinDatastoreToBigqueryCronTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>BuiltinDatastoreToBigqueryCronTask</servlet-name>
@@ -132,7 +132,7 @@
 
 	<servlet>
 		<servlet-name>BuiltinDatastoreToBigqueryIngestorTask</servlet-name>
-		<servlet-class>com.streak.datastore.analysis.builtin.BuiltinDatastoreToBigqueryIngesterTask</servlet-class>
+		<servlet-class>com.l2bq.datastore.analysis.builtin.BuiltinDatastoreToBigqueryIngesterTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>BuiltinDatastoreToBigqueryIngestorTask</servlet-name>
