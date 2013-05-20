@@ -3,7 +3,7 @@ package com.junseo.l2bq.rest.entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class LoginData
+public class LoginData extends Entity
 {
 	private long time;
 	
