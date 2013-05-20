@@ -55,7 +55,7 @@ public class LogGenServlet
 		
 		Random rand = new Random();
 		
-		for ( int i = 0; i < Integer.MAX_VALUE; i++ )
+		for ( int i = 0; i < 1000; i++ )
 		{
 			idx = rand.nextInt(100);
 			int minusVal = rand.nextBoolean() ? -1 : 1;
@@ -69,7 +69,7 @@ public class LogGenServlet
 			
 			DAULog log = new DAULog();
 			
-			log.setType("dau");
+			log.setType("login");
 			log.setData(data);
 			
 			APP_LOG( gson.toJson(log) );
