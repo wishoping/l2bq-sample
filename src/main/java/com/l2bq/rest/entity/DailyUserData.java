@@ -1,15 +1,15 @@
-package com.junseo.l2bq.rest.entity;
+package com.l2bq.rest.entity;
 
 /**
  * Daily User Total Result
  * @author Junki Kim(wishoping@gmail.com)
  * @date 2013. 5. 20.
  */
-public class HourlyUserData extends Entity
+public class DailyUserData extends Entity
 {
 	private String userId;
 	
-	public HourlyUserData()
+	public DailyUserData()
 	{
 		// TODO Auto-generated constructor stub
 	}

@@ -1,4 +1,4 @@
-package com.junseo.l2bq.rest;
+package com.l2bq.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +9,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.junseo.l2bq.rest.entity.DailyData;
-import com.junseo.l2bq.rest.entity.DailyUserData;
-import com.junseo.l2bq.rest.entity.HourlyData;
-import com.junseo.l2bq.rest.entity.HourlyUserData;
-import com.junseo.l2bq.rest.entity.ListResult;
-import com.junseo.l2bq.rest.entity.Result;
+import com.l2bq.rest.entity.DailyData;
+import com.l2bq.rest.entity.DailyUserData;
+import com.l2bq.rest.entity.HourlyData;
+import com.l2bq.rest.entity.HourlyUserData;
+import com.l2bq.rest.entity.ListResult;
+import com.l2bq.rest.entity.Result;
 
 /**
  * Daily Statistics Related RESTful Servlet Class 

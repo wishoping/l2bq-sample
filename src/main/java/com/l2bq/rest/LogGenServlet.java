@@ -1,4 +1,4 @@
-package com.junseo.l2bq.rest;
+package com.l2bq.rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +17,8 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
-import com.junseo.l2bq.rest.entity.LoginData;
-import com.junseo.l2bq.rest.entity.DAULog;
+import com.l2bq.rest.entity.DAULog;
+import com.l2bq.rest.entity.LoginData;
 
 @Path("/log")
 public class LogGenServlet
