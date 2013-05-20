@@ -8,6 +8,33 @@
 	<!-- <welcome-file-list> <welcome-file>index.html</welcome-file> </welcome-file-list> -->
 
 	<servlet>
+        <servlet-name>ServletAdaptor</servlet-name>
+        <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>com.sun.jersey.config.property.packages</param-name>
+            <param-value>com.junseo.l2bq.rest</param-value>
+        </init-param>
+        <init-param>
+	        <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
+	        <param-value>true</param-value>
+	    </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+     
+    <servlet-mapping>
+        <servlet-name>ServletAdaptor</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+    </servlet-mapping>
+    
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    <!-- <welcome-file-list>
+    	<welcome-file>index.html</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list> -->
+    
+	<servlet>
 		<servlet-name>SystemServiceServlet</servlet-name>
 		<servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
 		<init-param>
@@ -41,85 +68,76 @@
 	</servlet-mapping>
 
 	<servlet>
-	  <servlet-name>LogExportCronTask</servlet-name>
-	  <servlet-class>com.l2bq.logging.analysis.LogExportCronTask</servlet-class>
+		<servlet-name>LogExportCronTask</servlet-name>
+		<servlet-class>com.l2bq.logging.analysis.LogExportCronTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	  <servlet-name>LogExportCronTask</servlet-name>
-	  <url-pattern>/logging/logExportCron</url-pattern>
+		<servlet-name>LogExportCronTask</servlet-name>
+		<url-pattern>/logging/logExportCron</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
-	  <servlet-name>StoreLogsInCloudStorageTask</servlet-name>
-	  <servlet-class>com.l2bq.logging.analysis.StoreLogsInCloudStorageTask</servlet-class>
+		<servlet-name>StoreLogsInCloudStorageTask</servlet-name>
+		<servlet-class>com.l2bq.logging.analysis.StoreLogsInCloudStorageTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	  <servlet-name>StoreLogsInCloudStorageTask</servlet-name>
-	  <url-pattern>/logging/storeLogsInCloudStorage</url-pattern>
+		<servlet-name>StoreLogsInCloudStorageTask</servlet-name>
+		<url-pattern>/logging/storeLogsInCloudStorage</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
-	  <servlet-name>LoadCloudStorageToBigqueryTask</servlet-name>
-	  <servlet-class>com.l2bq.logging.analysis.LoadCloudStorageToBigqueryTask</servlet-class>
+		<servlet-name>LoadCloudStorageToBigqueryTask</servlet-name>
+		<servlet-class>com.l2bq.logging.analysis.LoadCloudStorageToBigqueryTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	  <servlet-name>LoadCloudStorageToBigqueryTask</servlet-name>
-	  <url-pattern>/logging/loadCloudStorageToBigquery</url-pattern>
+		<servlet-name>LoadCloudStorageToBigqueryTask</servlet-name>
+		<url-pattern>/logging/loadCloudStorageToBigquery</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
-	  <servlet-name>DeleteCompletedCloudStorageFilesTask</servlet-name>
-	  <servlet-class>com.l2bq.logging.analysis.DeleteCompletedCloudStorageFilesTask</servlet-class>
+		<servlet-name>DeleteCompletedCloudStorageFilesTask</servlet-name>
+		<servlet-class>com.l2bq.logging.analysis.DeleteCompletedCloudStorageFilesTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	  <servlet-name>DeleteCompletedCloudStorageFilesTask</servlet-name>
-	  <url-pattern>/logging/deleteCompletedCloudStorageFilesTask</url-pattern>
+		<servlet-name>DeleteCompletedCloudStorageFilesTask</servlet-name>
+		<url-pattern>/logging/deleteCompletedCloudStorageFilesTask</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
-	  <servlet-name>BigqueryStatusServlet</servlet-name>
-	  <servlet-class>com.l2bq.logging.analysis.BigqueryStatusServlet</servlet-class>
+		<servlet-name>BigqueryStatusServlet</servlet-name>
+		<servlet-class>com.l2bq.logging.analysis.BigqueryStatusServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	  <servlet-name>BigqueryStatusServlet</servlet-name>
-	  <url-pattern>/logging/bigqueryStatus</url-pattern>
+		<servlet-name>BigqueryStatusServlet</servlet-name>
+		<url-pattern>/logging/bigqueryStatus</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
-	  <servlet-name>DatastoreExportServlet</servlet-name>
-	  <servlet-class>com.l2bq.datastore.analysis.DatastoreExportServlet</servlet-class>
+		<servlet-name>DatastoreExportServlet</servlet-name>
+		<servlet-class>com.l2bq.datastore.analysis.DatastoreExportServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	  <servlet-name>DatastoreExportServlet</servlet-name>
-	  <url-pattern>/logging/datastoreExport</url-pattern>
+		<servlet-name>DatastoreExportServlet</servlet-name>
+		<url-pattern>/logging/datastoreExport</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
-	  <servlet-name>BuiltinDatastoreToBigqueryCronTask</servlet-name>
-	  <servlet-class>com.l2bq.datastore.analysis.builtin.BuiltinDatastoreToBigqueryCronTask</servlet-class>
+		<servlet-name>BuiltinDatastoreToBigqueryCronTask</servlet-name>
+		<servlet-class>com.l2bq.datastore.analysis.builtin.BuiltinDatastoreToBigqueryCronTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	  <servlet-name>BuiltinDatastoreToBigqueryCronTask</servlet-name>
-	  <url-pattern>/bqlogging/builtinDatastoreExport</url-pattern>
+		<servlet-name>BuiltinDatastoreToBigqueryCronTask</servlet-name>
+		<url-pattern>/bqlogging/builtinDatastoreExport</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
-	  <servlet-name>BuiltinDatastoreToBigqueryIngestorTask</servlet-name>
-	  <servlet-class>com.l2bq.datastore.analysis.builtin.BuiltinDatastoreToBigqueryIngesterTask</servlet-class>
+		<servlet-name>BuiltinDatastoreToBigqueryIngestorTask</servlet-name>
+		<servlet-class>com.l2bq.datastore.analysis.builtin.BuiltinDatastoreToBigqueryIngesterTask</servlet-class>
 	</servlet>
 	<servlet-mapping>
-	  <servlet-name>BuiltinDatastoreToBigqueryIngestorTask</servlet-name>
-	  <url-pattern>/bqlogging/builtinDatastoreToBigqueryIngestorTask</url-pattern>
+		<servlet-name>BuiltinDatastoreToBigqueryIngestorTask</servlet-name>
+		<url-pattern>/bqlogging/builtinDatastoreToBigqueryIngestorTask</url-pattern>
 	</servlet-mapping>
-	
-	<security-constraint>
-	  <web-resource-collection>
-	    <url-pattern>/logging/*</url-pattern>
-	  </web-resource-collection>
-	  <auth-constraint>
-	    <role-name>admin</role-name>
-	  </auth-constraint>
-	</security-constraint>
 
 	<security-constraint>
 		<web-resource-collection>
