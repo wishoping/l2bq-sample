@@ -39,10 +39,6 @@ public class DAUManager {
 	
 	private final String WHERE_USER = "WHERE userId = '%s'";
 	
-	private final List<String> FIELDS = Arrays.asList("f_time", "loginCount");
-	
-	private final List<String> FIELDS_USER = Arrays.asList("userId", "f_time", "loginCount");
-	
 	/**
 	 * Constructor
 	 */

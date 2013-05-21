@@ -11,6 +11,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +23,7 @@ import com.google.gson.Gson;
 import com.l2bq.rest.entity.CustomQuery;
 import com.l2bq.rest.entity.HourlyData;
 import com.l2bq.rest.entity.HourlyUserData;
+import com.l2bq.rest.entity.JSONArrayResult;
 import com.l2bq.rest.entity.ListResult;
 import com.l2bq.rest.entity.QueryResult;
 import com.l2bq.rest.manager.BigQueryManager;
@@ -49,7 +51,7 @@ public class QueryService {
 	public String getQueryResult(CustomQuery query) {
 
 		BigQueryManager manager = new BigQueryManager();
-		ListResult<JSONObject> result = new ListResult<JSONObject>();
+		JSONArrayResult result = new JSONArrayResult();
 		
 		try {
 			QueryResponse queryResponse = manager.syncQuery(query.getQuery());
@@ -70,12 +72,13 @@ public class QueryService {
 				
 				//String return = String.format("{\"msg\":\"success\",\"isSuccess\":true,\"list\":%s", new Gson().toJson(dataList));
 				if ( dataList.length() != 0 ) {
-					//result.setList(dataList);
-					//result.setMsg("success");
-					result.setMsg(dataList.toString());
+					result.setList(dataList);
+					result.setMsg("success");
+//					result.setMsg(dataList.toString());
 					result.setSuccess(true);
 					
-					return new Gson().toJson(result);
+//					return new Gson().toJson(result);
+					return result.toString();
 				}
 			}
 		} catch (IOException e) {
@@ -89,7 +92,7 @@ public class QueryService {
 		result.setMsg("failed with null result");
 		result.setSuccess(false);
 		
-		return new Gson().toJson(result);
+		return result.toString();
 	}
 
 	private Map<Integer, String> getSchemaMap(QueryResponse queryResponse) {
