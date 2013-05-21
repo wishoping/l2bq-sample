@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import com.google.api.services.bigquery.model.QueryResponse;
 import com.google.api.services.bigquery.model.TableRow;
+import com.google.gson.Gson;
 import com.l2bq.rest.entity.CustomQuery;
 import com.l2bq.rest.entity.HourlyData;
 import com.l2bq.rest.entity.HourlyUserData;
@@ -44,7 +45,7 @@ public class QueryService {
 	@Path("")
 	@Consumes({MediaType.APPLICATION_JSON})
 	@Produces({MediaType.APPLICATION_JSON})
-	public ListResult<JSONObject> getQueryResult(CustomQuery query) {
+	public String getQueryResult(CustomQuery query) {
 
 		BigQueryManager manager = new BigQueryManager();
 		ListResult<JSONObject> result = new ListResult<JSONObject>();
@@ -71,7 +72,7 @@ public class QueryService {
 					result.setMsg("success");
 					result.setSuccess(true);
 					
-					return result;
+					return new Gson().toJson(result);
 				}
 			}
 		} catch (IOException e) {
@@ -85,7 +86,7 @@ public class QueryService {
 		result.setMsg("failed with null result");
 		result.setSuccess(false);
 		
-		return result;
+		return new Gson().toJson(result);
 	}
 
 	private Map<Integer, String> getSchemaMap(QueryResponse queryResponse) {
