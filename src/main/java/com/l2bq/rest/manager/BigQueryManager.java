@@ -64,24 +64,20 @@ public class BigQueryManager {
 		
 		QueryRequest queryInfo = new QueryRequest().setQuery(query);
 
-		System.out.print("Get Query Info : " + queryInfo);
 		Bigquery.Jobs.Query queryRequest = this.bigqueryService.jobs()
 																.query(this.getProjectId(), queryInfo);
-		System.out.print("Query Request : " + queryRequest.getOauthToken());
-		System.out.print("Query Start --> ");
 		QueryResponse queryResponse = queryRequest.execute();
 		
-		System.out.print("<-- Query Executed : " + queryResponse);
 		
 		// retrieve example
-		if (queryResponse.getRows() != null) {
-			for (TableRow row : queryResponse.getRows()) {
-				for (TableRow.F field : row.getF()) {
-					System.out.printf("%s-30s", field.getV());
-				}
-				System.out.println();
-			}
-		}
+//		if (queryResponse.getRows() != null) {
+//			for (TableRow row : queryResponse.getRows()) {
+//				for (TableRow.F field : row.getF()) {
+//					System.out.printf("%s-30s", field.getV());
+//				}
+//				System.out.println();
+//			}
+//		}
 		
 		return queryResponse;
 	}

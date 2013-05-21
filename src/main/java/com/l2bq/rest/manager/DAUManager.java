@@ -166,15 +166,10 @@ public class DAUManager {
 		query += " " + ORDER_BY;
 		query += ";";
 		
-		System.out.print("QUERY : " + query);
-		
 		try {
 			QueryResponse queryResponse = manager.syncQuery(query);
 			
-			System.out.println("===> Got Query Result! : " + queryResponse);
-			System.out.println("===> Get Rows : " + queryResponse.getRows());
 			if (queryResponse != null && queryResponse.getRows() != null) {
-				System.out.print("Got Result from Bigquery!");
 				List<DailyData> dataList = new ArrayList<DailyData>();
 				Map<Integer, String> schemaMap = getSchemaMap(queryResponse);
 				
@@ -182,13 +177,14 @@ public class DAUManager {
 					DailyData data = extractDailyData(schemaMap, row);
 					if ( data != null ) {
 						dataList.add(data);
-						System.out.print("--> " + data.toString());
 					}
 				}
+				
+				return dataList;
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.out.print(e.getMessage());
+			System.out.println(e.getMessage());
 		}
 		
 		return null;
