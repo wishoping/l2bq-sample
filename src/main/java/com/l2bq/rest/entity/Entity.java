@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @date 2013. 5. 20.
  */
 @XmlRootElement
-public class Entity
+public abstract class Entity
 {
 
 	public Entity()

@@ -5,9 +5,10 @@ package com.l2bq.rest.entity;
  * @author Junki Kim(wishoping@gmail.com)
  * @date 2013. 5. 20.
  */
-public class DailyUserData extends Entity
+public class DailyUserData extends DailyData
 {
 	private String userId;
+	
 	
 	public DailyUserData()
 	{
@@ -23,5 +24,7 @@ public class DailyUserData extends Entity
 	{
 		this.userId = userId;
 	}
+
+	
 
 }

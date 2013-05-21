@@ -7,23 +7,21 @@ import java.util.List;
  * @author Junki Kim(wishoping@gmail.com)
  * @date 2013. 5. 20.
  */
-public class ListResult extends Result
+public class ListResult<T> extends Result
 {
-	private List<Entity> list = null;
+	private List<T> list = null;
 	
 	public ListResult()
 	{
 	}
 
-	public List<Entity> getList()
+	public List<T> getList()
 	{
 		return list;
 	}
 
-	public void setList(List<Entity> list)
+	public void setList(List<T> list)
 	{
 		this.list = list;
 	}
-
-	
 }

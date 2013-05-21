@@ -36,7 +36,9 @@ public class DailyData extends Entity
 		this.loginCount = loginCount;
 	}
 	
-	
-	
+	@Override
+	public String toString() {
+		return String.format("Day : %s, LoginCount : %d", day, loginCount);
+	}
 
 }

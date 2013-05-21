@@ -5,7 +5,7 @@ package com.l2bq.rest.entity;
  * @author Junki Kim(wishoping@gmail.com)
  * @date 2013. 5. 20.
  */
-public class HourlyUserData extends Entity
+public class HourlyUserData extends HourlyData
 {
 	private String userId;
 	
@@ -24,4 +24,5 @@ public class HourlyUserData extends Entity
 		this.userId = userId;
 	}
 
+	
 }

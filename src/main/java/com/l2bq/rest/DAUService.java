@@ -15,6 +15,7 @@ import com.l2bq.rest.entity.HourlyData;
 import com.l2bq.rest.entity.HourlyUserData;
 import com.l2bq.rest.entity.ListResult;
 import com.l2bq.rest.entity.Result;
+import com.l2bq.rest.manager.DAUManager;
 
 /**
  * Daily Statistics Related RESTful Servlet Class 
@@ -24,7 +25,8 @@ import com.l2bq.rest.entity.Result;
 @Path("/dau")
 public class DAUService
 {
-
+	private DAUManager dauMan = new DAUManager();
+	
 	/**
 	 * Daily Total User Statistics
 	 * @param month Target Month 
@@ -33,13 +35,22 @@ public class DAUService
 	@GET
 	@Path("/daily/total/{month}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public ListResult getDailyTotalResult(@PathParam("month") int month)
+	public ListResult<DailyData> getDailyTotalResult(@PathParam("month") int month)
 	{
-		List<DailyData> list = new ArrayList<DailyData>();
+		List<DailyData> list = dauMan.getDailyTotalList(month);
 		
-		// SELECT STRFTIME_UTC_USEC(time*1000, "%Y-%m-%d") as day, count(*) as loginCount FROM [l2bq_test.applog_login] group by day order by day;
+		ListResult<DailyData> result = new ListResult<DailyData>();
+		if ( list != null ) {
+			result.setList(list);
+			result.setMsg("success");
+			result.setSuccess(true);
+		} else {
+			result.setList(null);
+			result.setMsg("failed with null result");
+			result.setSuccess(false);
+		}
 		
-		return null;
+		return result;
 	}
 
 	/**
@@ -50,13 +61,22 @@ public class DAUService
 	@GET
 	@Path("/hourly/total/{month}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public ListResult getDailyHourlyTotalResult(@PathParam("month") int month)
+	public ListResult<HourlyData> getDailyHourlyTotalResult(@PathParam("month") int month)
 	{
-		List<HourlyData> list = new ArrayList<HourlyData>();
+		List<HourlyData> list = dauMan.getHourlyTotalList(month);
 		
-		// SELECT STRFTIME_UTC_USEC(time*1000, "%Y-%m-%d %H") as day, count(*) as loginCount FROM [l2bq_test.applog_login] group by day order by day;
-
-		return null;
+		ListResult<HourlyData> result = new ListResult<HourlyData>();
+		if ( list != null ) {
+			result.setList(list);
+			result.setMsg("success");
+			result.setSuccess(true);
+		} else {
+			result.setList(null);
+			result.setMsg("failed with null result");
+			result.setSuccess(false);
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -67,13 +87,22 @@ public class DAUService
 	@GET
 	@Path("/daily/eachuser/total/{month}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public ListResult getDailyEachUserTotalResult(@PathParam("month") int month)
+	public ListResult<DailyUserData> getDailyEachUserTotalResult(@PathParam("month") int month)
 	{
-		List<DailyUserData> list = new ArrayList<DailyUserData>();
+		List<DailyUserData> list = dauMan.getDailyUserTotalList(month);
 		
-		// SELECT userId, STRFTIME_UTC_USEC(time*1000, "%Y-%m-%d") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] group by userId, day order by userId, day;
+		ListResult<DailyUserData> result = new ListResult<DailyUserData>();
+		if ( list != null ) {
+			result.setList(list);
+			result.setMsg("success");
+			result.setSuccess(true);
+		} else {
+			result.setList(null);
+			result.setMsg("failed with null result");
+			result.setSuccess(false);
+		}
 		
-		return null;
+		return result;
 	}
 	
 	/**
@@ -84,13 +113,22 @@ public class DAUService
 	@GET
 	@Path("/hourly/eachuser/total/{month}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public ListResult getDailyHourlyEachUserTotalResult(@PathParam("month") int month)
+	public ListResult<HourlyUserData> getDailyHourlyEachUserTotalResult(@PathParam("month") int month)
 	{
-		List<HourlyUserData> list = new ArrayList<HourlyUserData>();
+		List<HourlyUserData> list = dauMan.getHourlyUserTotalList(month);
 		
-		// SELECT userId, STRFTIME_UTC_USEC(time*1000, "%Y-%m-%d %H") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] group by userId, day order by userId, day;
+		ListResult<HourlyUserData> result = new ListResult<HourlyUserData>();
+		if ( list != null ) {
+			result.setList(list);
+			result.setMsg("success");
+			result.setSuccess(true);
+		} else {
+			result.setList(null);
+			result.setMsg("failed with null result");
+			result.setSuccess(false);
+		}
 		
-		return null;
+		return result;
 	}
 	
 	/**
@@ -102,10 +140,22 @@ public class DAUService
 	@GET
 	@Path("/daily/user/{userId}/{month}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public ListResult getDailyUserTotalResult(@PathParam("userId") int userId, @PathParam("month") int month)
+	public ListResult<DailyUserData> getDailyUserTotalResult(@PathParam("userId") String userId, @PathParam("month") int month)
 	{
-		List<DailyUserData> list = new ArrayList<DailyUserData>();
-		return null;
+		List<DailyUserData> list = dauMan.getDailySpecificUserTotalList(userId, month);
+		
+		ListResult<DailyUserData> result = new ListResult<DailyUserData>();
+		if ( list != null ) {
+			result.setList(list);
+			result.setMsg("success");
+			result.setSuccess(true);
+		} else {
+			result.setList(null);
+			result.setMsg("failed with null result");
+			result.setSuccess(false);
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -117,9 +167,21 @@ public class DAUService
 	@GET
 	@Path("/hourly/user/{userId}/{month}")
 	@Produces({MediaType.APPLICATION_JSON})
-	public ListResult getDailyHourlyUserTotalResult(@PathParam("userId") int userId, @PathParam("month") int month)
+	public ListResult<HourlyUserData> getDailyHourlyUserTotalResult(@PathParam("userId") String userId, @PathParam("month") int month)
 	{
-		List<HourlyUserData> list = new ArrayList<HourlyUserData>();
-		return null;
+		List<HourlyUserData> list = dauMan.getHourlySpecificUserTotalList(userId, month);
+		
+		ListResult<HourlyUserData> result = new ListResult<HourlyUserData>();
+		if ( list != null ) {
+			result.setList(list);
+			result.setMsg("success");
+			result.setSuccess(true);
+		} else {
+			result.setList(null);
+			result.setMsg("failed with null result");
+			result.setSuccess(false);
+		}
+		
+		return result;
 	}
 }
