@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,7 +54,7 @@ public class QueryService {
 		try {
 			QueryResponse queryResponse = manager.syncQuery(query.getQuery());
 			if (queryResponse != null && queryResponse.getRows() != null) {
-				List<JSONObject> dataList = new ArrayList<JSONObject>();
+				JSONArray dataList = new JSONArray();
 				Map<Integer, String> schemaMap = getSchemaMap(queryResponse);
 				
 				for (TableRow row : queryResponse.getRows()) {
@@ -64,12 +65,14 @@ public class QueryService {
 						item.put(schemaMap.get(idx++), field.getV() );
 					}					
 					
-					dataList.add(item);
+					dataList.put(item);
 				}
 				
-				if ( dataList.size() != 0 ) {
-					result.setList(dataList);
-					result.setMsg("success");
+				//String return = String.format("{\"msg\":\"success\",\"isSuccess\":true,\"list\":%s", new Gson().toJson(dataList));
+				if ( dataList.length() != 0 ) {
+					//result.setList(dataList);
+					//result.setMsg("success");
+					result.setMsg(dataList.toString());
 					result.setSuccess(true);
 					
 					return new Gson().toJson(result);
