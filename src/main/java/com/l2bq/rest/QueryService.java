@@ -61,7 +61,7 @@ public class QueryService {
 					
 					int idx = 0;
 					for ( TableRow.F field : row.getF() ) {
-						item.append(schemaMap.get(idx++), field.getV() );
+						item.put(schemaMap.get(idx++), field.getV() );
 					}					
 					
 					dataList.add(item);
