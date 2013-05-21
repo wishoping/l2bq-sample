@@ -300,8 +300,8 @@ public class DAUManager {
 	
 	public List<HourlyUserData> getHourlySpecificUserTotalList(String userId, int month) {
 		String query = String.format(SELECT_QUERY, FIELD_HOURLY_USER);
-		query += " " + GROUP_BY_USER;
 		query += " " + String.format(WHERE_USER, userId);
+		query += " " + GROUP_BY_USER;
 		query += " " + ORDER_BY_USER;
 		query += ";";
 		
@@ -324,7 +324,5 @@ public class DAUManager {
 		}
 		return null;
 	}
-	
-	
 
 }
