@@ -13,7 +13,7 @@ public class DAULog
 {
 	private String type;
 
-	private LoginData data;
+	private Entity data;
 	
 	public DAULog()
 	{
@@ -30,12 +30,12 @@ public class DAULog
 		this.type = type;
 	}
 
-	public LoginData getData()
+	public Entity getData()
 	{
 		return data;
 	}
 
-	public void setData(LoginData data)
+	public void setData(Entity data)
 	{
 		this.data = data;
 	}
