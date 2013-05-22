@@ -61,12 +61,12 @@ public class LogGenServlet
 		
 		Random rand = new Random();
 		
-		for ( int i = 0; i < 1000; i++ )
+		for ( int i = 0; i < 30000; i++ )
 		{
-			idx = rand.nextInt(100);
+			idx = rand.nextInt(1000)+1;
 			int minusVal = rand.nextBoolean() ? -1 : 1;
 			LoginData data = new LoginData();
-			data.setTime(System.currentTimeMillis() + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(12) * 1000 * minusVal) );
+			data.setTime(System.currentTimeMillis() + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(31) * 1000 * minusVal) );
 			data.setUserId(idx);
 			data.setUserName(idx+"");
 			data.setLangType(rand.nextInt(2));
