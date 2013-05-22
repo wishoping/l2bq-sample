@@ -59,32 +59,36 @@ public class QueryService {
 				JSONArray dataList = new JSONArray();
 				Map<Integer, String> schemaMap = getSchemaMap(queryResponse);
 				
+				
+				
 				for (TableRow row : queryResponse.getRows()) {
 					JSONObject item = new JSONObject();
 					
 					int idx = 0;
 					for ( TableRow.F field : row.getF() ) {
-						item.put(schemaMap.get(idx++), field.getV() );
+						String type = queryResponse.getSchema().getFields().get(idx).getType();
+						
+						if ( type.equalsIgnoreCase("integer") ) {
+							item.put(schemaMap.get(idx++), Long.parseLong(field.getV()) );
+						} else if ( type.equalsIgnoreCase("string") ) {
+							item.put(schemaMap.get(idx++), field.getV() );
+						}
 					}					
 					
 					dataList.put(item);
 				}
 				
-				//String return = String.format("{\"msg\":\"success\",\"isSuccess\":true,\"list\":%s", new Gson().toJson(dataList));
 				if ( dataList.length() != 0 ) {
 					result.setList(dataList);
 					result.setMsg("success");
-//					result.setMsg(dataList.toString());
 					result.setSuccess(true);
 					
-//					return new Gson().toJson(result);
 					return result.toString();
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
