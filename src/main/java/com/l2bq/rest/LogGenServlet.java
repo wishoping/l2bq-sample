@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.l2bq.rest.entity.DAULog;
 import com.l2bq.rest.entity.LoginData;
+import com.l2bq.rest.entity.SignupData;
 
 /**
  * Log Generator via log4j class 
@@ -61,12 +62,39 @@ public class LogGenServlet
 		
 		Random rand = new Random();
 		
-		for ( int i = 0; i < 30000; i++ )
+		List<Integer> idList = new ArrayList<Integer>();
+		
+		for ( int i = 0; i < 1000; i++ )
 		{
-			idx = rand.nextInt(1000)+1;
+			idx = rand.nextInt(100)+1;
+			idList.add(idx);
 			int minusVal = rand.nextBoolean() ? -1 : 1;
+			SignupData data = new SignupData();
+			data.setTime(System.currentTimeMillis() + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(2) * 1000 * minusVal) );
+			data.setUserId(idx);
+			data.setUserName(idx+"");
+			data.setLangType(rand.nextInt(2));
+			data.setOsType(rand.nextInt(2));
+			data.setUserType(rand.nextInt(10)+"");
+			data.setUtfOffset(rand.nextInt(1000*60*60*24) );
+			
+			DAULog log = new DAULog();
+			
+			log.setType("signup");
+			log.setData(data);
+			
+			APP_LOG( gson.toJson(log) );
+			
+			logs.add(log);
+			
+		}
+		
+		for ( int i = 0; i < 3000; i++ )
+		{
+//			idx = rand.nextInt(1000)+1;
+			idx = idList.get( rand.nextInt(idList.size()) );
 			LoginData data = new LoginData();
-			data.setTime(System.currentTimeMillis() + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(31) * 1000 * minusVal) );
+			data.setTime(System.currentTimeMillis() + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(2) * 1000) + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(31) * 1000 ) );
 			data.setUserId(idx);
 			data.setUserName(idx+"");
 			data.setLangType(rand.nextInt(2));
