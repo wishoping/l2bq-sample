@@ -20,6 +20,12 @@ import com.google.gson.Gson;
 import com.l2bq.rest.entity.DAULog;
 import com.l2bq.rest.entity.LoginData;
 
+/**
+ * Log Generator via log4j class 
+ * @author Junki Kim (wishoping@gmail.com), Wooseok Seo (wooseok.seo@gmail.com)
+ * @date 2013. 5. 22.
+ *
+ */
 @Path("/log")
 public class LogGenServlet
 {

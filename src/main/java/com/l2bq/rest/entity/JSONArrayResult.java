@@ -6,6 +6,12 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
+/**
+ * Custom Type class data Result class 
+ * @author Junki Kim (wishoping@gmail.com), Wooseok Seo (wooseok.seo@gmail.com)
+ * @date 2013. 5. 22.
+ *
+ */
 public class JSONArrayResult extends Result {
 	private JSONArray list;
 	

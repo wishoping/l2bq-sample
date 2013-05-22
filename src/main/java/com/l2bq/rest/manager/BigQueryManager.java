@@ -26,7 +26,7 @@ import com.google.api.services.bigquery.model.TableRow.F;
 
 /**
  * BigQuery Manager class 
- * @author Junki Kim (wishoping@gmail.com)
+ * @author Junki Kim (wishoping@gmail.com), Wooseok Seo (wooseok.seo@gmail.com)
  * @date 2013. 5. 21.
  *
  */

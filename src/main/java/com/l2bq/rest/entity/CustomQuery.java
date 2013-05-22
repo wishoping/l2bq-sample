@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * CustomQuery POST param POJO Class 
- * @author Junki Kim (wishoping@gmail.com)
+ * @author Junki Kim (wishoping@gmail.com), Wooseok Seo (wooseok.seo@gmail.com)
  * @date 2013. 5. 21.
  *
  */

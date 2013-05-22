@@ -19,7 +19,7 @@ import com.l2bq.rest.manager.DAUManager;
 
 /**
  * Daily Statistics Related RESTful Servlet Class 
- * @author Junki Kim(wishoping@gmail.com)
+ * @author Junki Kim(wishoping@gmail.com), Wooseok Seo (wooseok.seo@gmail.com)
  * @date 2013. 5. 20.
  */
 @Path("/dau")

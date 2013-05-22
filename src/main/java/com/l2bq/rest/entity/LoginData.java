@@ -2,6 +2,12 @@ package com.l2bq.rest.entity;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Login User Data Entity Class
+ * @author Junki Kim (wishoping@gmail.com), Wooseok Seo (wooseok.seo@gmail.com)
+ * @date 2013. 5. 22.
+ *
+ */
 @XmlRootElement
 public class LoginData extends Entity
 {

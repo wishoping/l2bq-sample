@@ -16,7 +16,7 @@ import com.l2bq.rest.entity.HourlyUserData;
 
 /**
  * DAU 관련 데이터 Query Manager Class
- * @author Junki Kim (wishoping@gmail.com)
+ * @author Junki Kim (wishoping@gmail.com), Wooseok Seo (wooseok.seo@gmail.com)
  * @date 2013. 5. 21.
  *
  */
