@@ -76,7 +76,8 @@ public class LogGenServlet
 			data.setLangType(rand.nextInt(2));
 			data.setOsType(rand.nextInt(2));
 			data.setUserType(rand.nextInt(10)+"");
-			data.setUtfOffset(rand.nextInt(1000*60*60*24) );
+			data.setUtfOffset( rand.nextInt(24) );
+			data.setPhone( data.getPhone() + String.format("%04d", rand.nextInt(10000)) ) ; 
 			
 			DAULog log = new DAULog();
 			

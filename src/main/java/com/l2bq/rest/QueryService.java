@@ -10,6 +10,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -27,6 +28,7 @@ import com.l2bq.rest.entity.JSONArrayResult;
 import com.l2bq.rest.entity.ListResult;
 import com.l2bq.rest.entity.QueryResult;
 import com.l2bq.rest.manager.BigQueryManager;
+import com.sun.jersey.api.json.JSONWithPadding;
 
 /**
  * Custom Query RESTful Service Servlet Class 
@@ -47,8 +49,9 @@ public class QueryService {
 	@POST
 	@Path("")
 	@Consumes({MediaType.APPLICATION_JSON})
-	@Produces({MediaType.APPLICATION_JSON})
-	public String getQueryResult(CustomQuery query) {
+	@Produces("application/x-javascript")
+//	@Produces({MediaType.APPLICATION_JSON})
+	public JSONWithPadding getQueryResult(@QueryParam("callback") String callback, CustomQuery query) {
 
 		BigQueryManager manager = new BigQueryManager();
 		JSONArrayResult result = new JSONArrayResult();
@@ -83,7 +86,7 @@ public class QueryService {
 					result.setMsg("success");
 					result.setSuccess(true);
 					
-					return result.toString();
+					return new JSONWithPadding(result.toString(),callback);
 				}
 			}
 		} catch (IOException e) {
@@ -96,7 +99,8 @@ public class QueryService {
 		result.setMsg("failed with null result");
 		result.setSuccess(false);
 		
-		return result.toString();
+//		return result.toString();
+		return new JSONWithPadding(result.toString(),callback);
 	}
 
 	private Map<Integer, String> getSchemaMap(QueryResponse queryResponse) {
