@@ -70,7 +70,7 @@ public class LogGenServlet
 			idList.add(idx);
 			int minusVal = rand.nextBoolean() ? -1 : 1;
 			SignupData data = new SignupData();
-			data.setTime(System.currentTimeMillis() + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(2) * 1000 * minusVal) );
+			data.setTime(System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30) + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(2) * 1000 * minusVal) );
 			data.setUserId(idx);
 			data.setUserName(idx+"");
 			data.setLangType(rand.nextInt(2));
@@ -95,7 +95,7 @@ public class LogGenServlet
 //			idx = rand.nextInt(1000)+1;
 			idx = idList.get( rand.nextInt(idList.size()) );
 			LoginData data = new LoginData();
-			data.setTime(System.currentTimeMillis() + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(2) * 1000) + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(31) * 1000 ) );
+			data.setTime(System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30) + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(2) * 1000) + (rand.nextInt(60) * rand.nextInt(60) * rand.nextInt(24) * rand.nextInt(31) * 1000 ) );
 			data.setUserId(idx);
 			data.setUserName(idx+"");
 			data.setLangType(rand.nextInt(2));
