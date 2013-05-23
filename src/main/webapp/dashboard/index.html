@@ -154,55 +154,55 @@
 
     $(function () {
 
-      $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select count(*) as totalUsers from [l2bq_test.applog_signup]"},function(data){
+      $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select count(*) as totalUsers from [l2bq_test.applog_signup]"},function(data){
         var totalUsers = data.list[0].totalUsers;
         $("#totalUsers").text(totalUsers);
 
-        $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as f_time, count(*) as loginCount from [l2bq_test.applog_login] GROUP BY f_time ORDER BY f_time"},function(data){
+        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as f_time, count(*) as loginCount from [l2bq_test.applog_login] GROUP BY f_time ORDER BY f_time"},function(data){
           showActiveUserGraph('#dauChart', data, 'DAU', '', 'Time', '# of User Login/hour', 'KaizinRumble');
 
         },'jsonp');
 
-        $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as f_time, count(*) as signupCount from [l2bq_test.applog_signup] GROUP BY f_time ORDER BY f_time"},function(data){
+        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as f_time, count(*) as signupCount from [l2bq_test.applog_signup] GROUP BY f_time ORDER BY f_time"},function(data){
           showNewUserGraph('#signupChart', data, 'New Users', '', 'Time', '# of New Users', 'KaizinRumble');
         },'jsonp');
 
-        $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP(CURRENT_DATE()), -1, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount order by visitCount desc"},function(data){
+        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP(CURRENT_DATE()), -1, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount order by visitCount desc"},function(data){
           showRetentionGraph('#retentionChart', data, 'Retention %', '', 'Day', '% Day 0', 'KaizinRumble', 30, totalUsers);
         },'jsonp');
 
         // retention_1
-        $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -1, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
+        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -1, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
           $("#retention_1").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
         },'jsonp');
 
         // retention_2
-        $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -2, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
+        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -2, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
           $("#retention_2").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
         },'jsonp');
 
         // retention_3
-        $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -3, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
+        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -3, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
           $("#retention_3").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
         },'jsonp');
 
         // retention_7
-        $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -7, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
+        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -7, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
           $("#retention_7").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
         },'jsonp');
 
         // retention_14
-        $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -14, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
+        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -14, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
           $("#retention_14").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
         },'jsonp');
 
         // retention_21
-        $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -21, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
+        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -21, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
           $("#retention_21").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
         },'jsonp');
 
         // retention_1mon
-        $.post("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -1, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
+        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -1, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
           $("#retention_1mon").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
         },'jsonp');
       },'jsonp');
