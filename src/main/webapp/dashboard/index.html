@@ -29,7 +29,9 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="brand" href="#">Dashboard</a>
+        <a class="brand" href="#">Welcome to l2bq demo site</a>
+		<span class="tagline">a sample site for l2bq library. <a href="https://github.com/kevinseo/l2bq">Read more.</a></span>
+        
       </div>
     </div>
   </div>
@@ -40,28 +42,30 @@
         <aside>
           <nav>
             <ul class="nav">
-              <li class="selected">
-                <a href=""><i class="icon-play"></i> Dashboard</a>
+              <li class="selected" id="liDashboard">
+                <a href="#" id="navDashboard"><i class="icon-play"></i> Dashboard</a>
+              </li>
+              <li id="liHttpLogs">
+                <a href="#" id="navHttpLogs"><i class="icon-filter"></i> HTTP Logs</a>
               </li>
             </ul>
           </nav>
         </aside>
       </div>
       <div class="span9" id="content-wrapper">
-        <div id="content">
-
+        <div id="content" name="divDashBoard" style="">
                 <!-- Navbar
                 ================================================== -->
                 <section id="stats">
                   <header>
                     <div class="pull-right">
-                      <a class="btn btn-small">About</a>
+                      <a class="btn btn-small" id="btnRefreshDashboard"><i class="icon-refresh"></i>Refresh</a>
                     </div>
                     <h1>Dashboard</h1>
                   </header>
                   <div class="row-fluid">
                     <div class="span2">
-                      <div class="kpi" id="totalUsers">Counting...</div>
+                      <div class="kpi" id="totalUsers">N/A</div>
                       <div><small>Total Users</small></div>
                     </div>
                   </div>
@@ -133,6 +137,124 @@
                   </table>
                 </section>
           </div>
+          
+        <div id="content" name="divHttpLogs" style="display:none">
+                <!-- Navbar
+                ================================================== -->
+                <section id="stats">
+                  <header>
+                    <div class="pull-right">
+                      <a class="btn btn-small" id="btnRefreshHttpLogs"><i class="icon-refresh"></i>Refresh</a>
+                    </div>
+                    <h1>HTTP Logs</h1>
+                  </header>
+                  <div class="row-fluid">
+                    <div class="span2">
+                      <div class="kpi" id="totalHttpLogs">N/A</div>
+                      <div><small style="color: #000000;">Total Logs</small></div>
+                    </div>
+                    <div class="span2" style="color: #999999;">
+                      <div class="kpi" id="totalHttpLogsUndefined">0</div>
+                      <div><small style="color: #999999;">Undefined</small></div>
+                    </div>
+                    <div class="span2" style="color: #3a87ad;">
+                      <div class="kpi" id="totalHttpLogsInfo" >0</div>
+                      <div><small style="color: #3a87ad;">Info</small></div>
+                    </div>
+                    <div class="span2" style="color: #468847;">
+                      <div class="kpi" id="totalHttpLogsDebug">0</div>
+                      <div><small style="color: #468847;">Debug</small></div>
+                    </div>
+                    <div class="span2" style="color: #c09853;">
+                      <div class="kpi" id="totalHttpLogsWarning">0</div>
+                      <div><small style="color: #c09853;">Warning</small></div>
+                    </div>
+                    <div class="span2" style="color: #b94a48;">
+                      <div class="kpi" id="totalHttpLogsCritical">0</div>
+                      <div><small style="color: #b94a48;">Critical</small></div>
+                    </div>
+                  </div>
+                </section>
+                <!-- Graph
+                ================================================== -->
+                <section id="tables">
+                  <div class="sub-header">
+                    <h2>Latest Critical Logs</h2>
+                  </div>
+                  <table class="table table-striped full-section table-hover">
+                    <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>IP</th>
+                        <th>Method</th>
+                        <th>Resource</th>
+                        <th>Version</th>                        
+                      </tr>
+                    </thead>
+                    <tbody id='tableCriticalLogs'>
+                    </tbody>
+                  </table>
+                </section>
+
+                <section id="tables">
+                  <div class="sub-header">
+                    <h2>Latest Warning Logs</h2>
+                  </div>
+                  <table class="table table-striped full-section table-hover">
+                    <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>IP</th>
+                        <th>Method</th>
+                        <th>Resource</th>
+                        <th>Version</th>                        
+                      </tr>
+                    </thead>
+                    <tbody id='tableWarningLogs'>
+                    </tbody>
+                  </table>
+                </section>
+
+                <section id="tables">
+                  <div class="sub-header">
+                    <h2>Latest Info Logs</h2>
+                  </div>
+                  <table class="table table-striped full-section table-hover">
+                    <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>IP</th>
+                        <th>Method</th>
+                        <th>Resource</th>
+                        <th>Version</th>                        
+                      </tr>
+                    </thead>
+                    <tbody id='tableInfoLogs'>
+                    </tbody>
+                  </table>
+                </section>
+
+                <section id="tables">
+                  <div class="sub-header">
+                    <h2>Latest Debug Logs</h2>
+                  </div>
+                  <table class="table table-striped full-section table-hover">
+                    <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>IP</th>
+                        <th>Method</th>
+                        <th>Resource</th>
+                        <th>Version</th>                        
+                      </tr>
+                    </thead>
+                    <tbody id='tableDebugLogs'>
+                    </tbody>
+                  </table>
+                </section>
+                
+          </div>
+          
         </div>
       </div>
     </div><!-- /container -->
@@ -151,65 +273,57 @@
 
 
     <script type="text/javascript">
+	var isDashboardLoaded = false;
+	var isHttpLogsLoaded = false;
+	
+	function showDashboard() {
+		$("#liDashboard").addClass("selected");
+		$("#liHttpLogs").removeClass("selected");
+		
+		$('[name="divDashBoard"]').show();
+		$('[name="divHttpLogs"]').hide();
+	
+		if (!isDashboardLoaded) {
+			isDashboardLoaded = true;
+			
+			loadDashboard();				
+		}
+	}
+	
+	function showHttpLogs() {
+		$("#liDashboard").removeClass("selected");
+		$("#liHttpLogs").addClass("selected");
+		
+		$('[name="divDashBoard"]').hide();
+		$('[name="divHttpLogs"]').show();
 
+		if (!isHttpLogsLoaded) {
+			isHttpLogsLoaded = true;
+			
+			loadHttpLogs();
+		}			
+	}
+	
     $(function () {
 
-      $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select count(*) as totalUsers from [l2bq_test.applog_signup]"},function(data){
-        var totalUsers = data.list[0].totalUsers;
-        $("#totalUsers").text(totalUsers);
-
-        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as f_time, count(*) as loginCount from [l2bq_test.applog_login] GROUP BY f_time ORDER BY f_time"},function(data){
-          showActiveUserGraph('#dauChart', data, 'DAU', '', 'Time', '# of User Login/hour', 'KaizinRumble');
-
-        },'jsonp');
-
-        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as f_time, count(*) as signupCount from [l2bq_test.applog_signup] GROUP BY f_time ORDER BY f_time"},function(data){
-          showNewUserGraph('#signupChart', data, 'New Users', '', 'Time', '# of New Users', 'KaizinRumble');
-        },'jsonp');
-
-        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP(CURRENT_DATE()), -1, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount order by visitCount desc"},function(data){
-          showRetentionGraph('#retentionChart', data, 'Retention %', '', 'Day', '% Day 0', 'KaizinRumble', 30, totalUsers);
-        },'jsonp');
-
-        // retention_1
-        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -1, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
-          $("#retention_1").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
-        },'jsonp');
-
-        // retention_2
-        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -2, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
-          $("#retention_2").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
-        },'jsonp');
-
-        // retention_3
-        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -3, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
-          $("#retention_3").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
-        },'jsonp');
-
-        // retention_7
-        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -7, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
-          $("#retention_7").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
-        },'jsonp');
-
-        // retention_14
-        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -14, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
-          $("#retention_14").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
-        },'jsonp');
-
-        // retention_21
-        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -21, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
-          $("#retention_21").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
-        },'jsonp');
-
-        // retention_1mon
-        $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -1, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
-          $("#retention_1mon").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
-        },'jsonp');
-      },'jsonp');
+    	//showDashboard();
+    	
+		$("#navDashboard").click(function() {
+			showDashboard();
+		});
+		
+		$("#navHttpLogs").click(function() {
+			showHttpLogs();
+		});
 
 
-
-
+		$("#btnRefreshDashboard").click(function() {
+			loadDashboard();
+		});
+		
+		$("#btnRefreshHttpLogs").click(function() {
+			loadHttpLogs();
+		});
     });
 
 </script>
