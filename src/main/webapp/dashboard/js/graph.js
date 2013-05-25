@@ -106,6 +106,8 @@ function showNewUserGraph(divName, jsonObject, title, subTitle, xTitle, yTitle, 
 
 
 function loadDashboard() {
+    waitingDialog({title: "Please wait", message: "We are updating log data."});
+    
 	$.get("http://l2bq-test.appspot.com/rest/query", {"query":"select count(*) as totalUsers from [l2bq_test.applog_signup]"},function(data){
 	    var totalUsers = data.list[0].totalUsers;
 	    $("#totalUsers").text(totalUsers);
@@ -157,10 +159,15 @@ function loadDashboard() {
 	    $.get("http://l2bq-test.appspot.com/rest/query", {"query":"select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [l2bq_test.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), -1, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount)"},function(data){
 	      $("#retention_1mon").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
+	    
+	    closeWaitingDialog();
+	    
 	  },'jsonp');
 }
 
 function loadHttpLogs() {
+    waitingDialog({title: "Please wait", message: "We are updating log data."});
+    
 	// Total HTTP Logs Count
 	$.get("http://l2bq-test.appspot.com/rest/query", {"query":"select count(*) as totalHttpLogs from [l2bq_test.http_access_log]"},function(data){
 	    var totalHttpLogs = data.list[0].totalHttpLogs;
@@ -187,6 +194,8 @@ function loadHttpLogs() {
 				$("#totalHttpLogsUndefined").text(data.list[i].levelCount);
 			}
 		}
+		
+	    closeWaitingDialog();
 	},'jsonp');	
 	
 	
@@ -225,18 +234,5 @@ function loadHttpLogs() {
 		}
 		$("#tableInfoLogs").html(resultHtml);
 	},'jsonp');	
-
-	/*
-	// Debug
-	$.get("http://l2bq-test.appspot.com/rest/query", {"query":"select method, timestamp, resource, ip, versionId from [l2bq_test.http_access_log] where level = 'Debug' order by timestamp desc limit " + limit},function(data){
-		var resultHtml = "";
-		for (var i in data.list) {
-			var date = new Date(data.list[i].timestamp / 1000);
-			var row = "<tr><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr>";
-			resultHtml += row;
-		}
-		$("#tableDebugLogs").html(resultHtml);
-	},'jsonp');
-	*/	
 }
 
