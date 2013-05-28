@@ -51,8 +51,8 @@ public class UserServlet
 	
 	@GET
 	@Path("/users")
-	@Produces({MediaType.APPLICATION_JSON})
-	public String getQueryResultByJSONP() {
+	@Produces("application/x-javascript")
+	public JSONWithPadding getQueryResultByJSONP(@QueryParam("callback") String callback) {
 
 		BigQueryManager manager = new BigQueryManager();
 		JSONArrayResult result = new JSONArrayResult();
@@ -87,7 +87,8 @@ public class UserServlet
 					result.setMsg("success");
 					result.setSuccess(true);
 					
-					return result.toString();
+//					return result.toString();
+					return new JSONWithPadding(result.toString(),callback);
 				}
 			}
 		} catch (IOException e) {
@@ -101,7 +102,7 @@ public class UserServlet
 		result.setSuccess(false);
 		
 //		return result.toString();
-		return result.toString();
+		return new JSONWithPadding(result.toString(),callback);
 	}
 
 	private Map<Integer, String> getSchemaMap(QueryResponse queryResponse) {
