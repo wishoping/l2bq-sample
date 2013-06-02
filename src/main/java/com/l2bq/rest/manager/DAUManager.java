@@ -7,12 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.google.api.services.bigquery.model.QueryResponse;
 import com.google.api.services.bigquery.model.TableRow;
 import com.l2bq.rest.entity.DailyData;
 import com.l2bq.rest.entity.DailyUserData;
 import com.l2bq.rest.entity.HourlyData;
 import com.l2bq.rest.entity.HourlyUserData;
+import com.sun.jersey.api.json.JSONWithPadding;
 
 /**
  * DAU 관련 데이터 Query Manager Class
@@ -318,6 +323,44 @@ public class DAUManager {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+	
+	public JSONArray getTotalUserCountInfo()
+	{
+		String query = "select count(*) as totalUsers from [l2bq_test.applog_signup]";
+		
+		try {
+			QueryResponse queryResponse = manager.syncQuery(query);
+			if (queryResponse != null && queryResponse.getRows() != null) {
+				JSONArray dataList = new JSONArray();
+				Map<Integer, String> schemaMap = getSchemaMap(queryResponse);
+				
+				for (TableRow row : queryResponse.getRows()) {
+					JSONObject item = new JSONObject();
+					
+					int idx = 0;
+					for ( TableRow.F field : row.getF() ) {
+						String type = queryResponse.getSchema().getFields().get(idx).getType();
+						
+						if ( type.equalsIgnoreCase("integer") ) {
+							item.put(schemaMap.get(idx++), Long.parseLong(field.getV()) );
+						} else if ( type.equalsIgnoreCase("string") ) {
+							item.put(schemaMap.get(idx++), field.getV() );
+						}
+					}					
+					
+					dataList.put(item);
+				}
+				
+				return dataList;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 

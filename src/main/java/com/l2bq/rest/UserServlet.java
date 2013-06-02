@@ -30,6 +30,7 @@ import com.l2bq.rest.entity.JSONArrayResult;
 import com.l2bq.rest.entity.LoginData;
 import com.l2bq.rest.entity.SignupData;
 import com.l2bq.rest.manager.BigQueryManager;
+import com.l2bq.rest.manager.DAUManager;
 import com.sun.jersey.api.json.JSONWithPadding;
 
 /**
@@ -52,67 +53,25 @@ public class UserServlet
 	@GET
 	@Path("/users")
 	@Produces("application/x-javascript")
-	public JSONWithPadding getQueryResultByJSONP(@QueryParam("callback") String callback) {
-
-		BigQueryManager manager = new BigQueryManager();
+	public JSONWithPadding getTotalUserCountByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
 		JSONArrayResult result = new JSONArrayResult();
 		
-		String query = "select count(*) as totalUsers from [l2bq_test.applog_signup]";
+		JSONArray dataList = man.getTotalUserCountInfo(); 
 		
-		try {
-			QueryResponse queryResponse = manager.syncQuery(query);
-			if (queryResponse != null && queryResponse.getRows() != null) {
-				JSONArray dataList = new JSONArray();
-				Map<Integer, String> schemaMap = getSchemaMap(queryResponse);
-				
-				for (TableRow row : queryResponse.getRows()) {
-					JSONObject item = new JSONObject();
-					
-					int idx = 0;
-					for ( TableRow.F field : row.getF() ) {
-						String type = queryResponse.getSchema().getFields().get(idx).getType();
-						
-						if ( type.equalsIgnoreCase("integer") ) {
-							item.put(schemaMap.get(idx++), Long.parseLong(field.getV()) );
-						} else if ( type.equalsIgnoreCase("string") ) {
-							item.put(schemaMap.get(idx++), field.getV() );
-						}
-					}					
-					
-					dataList.put(item);
-				}
-				
-				if ( dataList.length() != 0 ) {
-					result.setList(dataList);
-					result.setMsg("success");
-					result.setSuccess(true);
-					
-//					return result.toString();
-					return new JSONWithPadding(result.toString(),callback);
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
 		}
 		
 		result.setList(null);
 		result.setMsg("failed with null result");
 		result.setSuccess(false);
 		
-//		return result.toString();
 		return new JSONWithPadding(result.toString(),callback);
-	}
-
-	private Map<Integer, String> getSchemaMap(QueryResponse queryResponse) {
-		Map<Integer, String> schemaMap = new HashMap<Integer, String>();
-		
-		for ( int fieldIdx = 0; fieldIdx < queryResponse.getSchema().getFields().size(); fieldIdx++ ) {
-			schemaMap.put(fieldIdx, queryResponse.getSchema().getFields().get(fieldIdx).getName());
-		}
-		
-		return schemaMap;
 	}
 
 	
