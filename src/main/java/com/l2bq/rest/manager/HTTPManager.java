@@ -39,7 +39,7 @@ public class HTTPManager {
 	 */
 	public JSONArray getHttpLogsStats()
 	{
-		String query = String.format("SELECT COUNT(*) as totalHttpLogs FROM [%s.http_access_log]", this.databaseName);
+		String query = String.format("select level, count(*) as levelCount from [%s.http_access_log] group by level", this.databaseName);
 		
 		return BigqueryUtil.extractResult(this.manager, query);
 	}
