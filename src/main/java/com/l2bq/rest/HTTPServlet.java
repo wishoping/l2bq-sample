@@ -169,4 +169,34 @@ public class HTTPServlet {
 		return new JSONWithPadding(result.toString(),callback);
 	}
 
+	/**
+	 * Get detailed HTTP Logs information 
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/detail/{index}")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getDetailedHttpLogByJSONP(@QueryParam("callback") String callback, @PathParam("index") long index) {
+		HTTPManager man = new HTTPManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getDetailedHttpLogs(index);
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
+
+	
 }
