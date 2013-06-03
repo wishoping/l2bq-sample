@@ -177,7 +177,7 @@ function loadDashboard() {
 	    },'jsonp');
 	
 	    $.get("http://l2bq-test.appspot.com/rest/user/new_users",function(data){
-		    showNewUserGraph('#signupChart', data, 'New Users', '', 'Time', '# of New Users', 'KaizinRumble');
+	      showNewUserGraph('#signupChart', data, 'New Users', '', 'Time', '# of New Users', 'KaizinRumble');
 	    },'jsonp');
 	
 	    $.get("http://l2bq-test.appspot.com/rest/user/retention",function(data){
