@@ -185,37 +185,37 @@ function loadDashboard() {
 	    },'jsonp');
 	
 	    // retention_1
-	    $.get("http://l2bq-test.appspot.com/rest/user/day/1",function(data){
+	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/1",function(data){
 	      $("#retention_1").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_2
-	    $.get("http://l2bq-test.appspot.com/rest/user/day/2",function(data){
+	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/2",function(data){
 	      $("#retention_2").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_3
-	    $.get("http://l2bq-test.appspot.com/rest/user/day/3", function(data){
+	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/3", function(data){
 	      $("#retention_3").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_7
-	    $.get("http://l2bq-test.appspot.com/rest/user/day/7", function(data){
+	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/7", function(data){
 	      $("#retention_7").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_14
-	    $.get("http://l2bq-test.appspot.com/rest/user/day/14", function(data){
+	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/14", function(data){
 	      $("#retention_14").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_21
-	    $.get("http://l2bq-test.appspot.com/rest/user/day/21", function(data){
+	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/21", function(data){
 	      $("#retention_21").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_1mon
-	    $.get("http://l2bq-test.appspot.com/rest/user/month/1", function(data){
+	    $.get("http://l2bq-test.appspot.com/rest/user/retention/month/1", function(data){
 	      $("#retention_1mon").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	    
