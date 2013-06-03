@@ -351,13 +351,15 @@ public class DAUManager {
 						String type = queryResponse.getSchema().getFields().get(idx).getType();
 						
 						if ( type.equalsIgnoreCase("integer") ) {
+							if ( field.getV() != null && !field.getV().isEmpty())
 							item.put(schemaMap.get(idx++), Long.parseLong(field.getV()) );
 						} else if ( type.equalsIgnoreCase("string") ) {
 							item.put(schemaMap.get(idx++), field.getV() );
 						}
 					}					
 					
-					dataList.put(item);
+					if ( item.keys().hasNext() )
+						dataList.put(item);
 				}
 				
 				return dataList;
@@ -389,7 +391,7 @@ public class DAUManager {
 	 */
 	public JSONArray getDAU()
 	{
-		String query = String.format("select STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as f_time, count(*) as loginCount from [%s.applog_login] GROUP BY f_time ORDER BY f_time", this.databaseName);
+		String query = String.format("select STRFTIME_UTC_USEC(time*1000, \"%%Y-%%m-%%d\") as f_time, count(*) as loginCount from [%s.applog_login] GROUP BY f_time ORDER BY f_time", this.databaseName);
 		
 		return extractResult(query);
 	}
@@ -400,7 +402,7 @@ public class DAUManager {
 	 */
 	public JSONArray getNewUsers()
 	{
-		String query = String.format("select STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as f_time, count(*) as loginCount from [%s.applog_login] GROUP BY f_time ORDER BY f_time", this.databaseName);
+		String query = String.format("select STRFTIME_UTC_USEC(time*1000, \"%%Y-%%m-%%d\") as f_time, count(*) as loginCount from [%s.applog_login] GROUP BY f_time ORDER BY f_time", this.databaseName);
 		
 		return extractResult(query);
 	}
@@ -411,7 +413,7 @@ public class DAUManager {
 	 */
 	public JSONArray getRetention()
 	{
-		String query = String.format("select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [%s.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP(CURRENT_DATE()), -1, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount order by visitCount desc", this.databaseName);
+		String query = String.format("select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%%Y-%%m-%%d\") as day, count(userId) as loginCount FROM [%s.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP(CURRENT_DATE()), -1, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount order by visitCount desc", this.databaseName);
 		
 		return extractResult(query);
 	}
@@ -423,7 +425,7 @@ public class DAUManager {
 	 */
 	public JSONArray getRetentionSinceDay(int dayCount)
 	{
-		String query = String.format("select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [%s.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), %d, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)", this.databaseName, dayCount);
+		String query = String.format("select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%%Y-%%m-%%d\") as day, count(userId) as loginCount FROM [%s.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), %d, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)", this.databaseName, dayCount);
 		
 		return extractResult(query);
 	}
@@ -435,7 +437,7 @@ public class DAUManager {
 	 */
 	public JSONArray getRetentionSinceMonth(int monthCount)
 	{
-		String query = String.format("select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [%s.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), %d, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount)", this.databaseName, monthCount);
+		String query = String.format("select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%%Y-%%m-%%d\") as day, count(userId) as loginCount FROM [%s.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), %d, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount)", this.databaseName, monthCount);
 		
 		return extractResult(query);
 	}
