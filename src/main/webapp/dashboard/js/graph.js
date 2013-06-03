@@ -177,63 +177,45 @@ function loadDashboard() {
 	    },'jsonp');
 	
 	    $.get("http://l2bq-test.appspot.com/rest/user/new_users",function(data){
-	    	console.log("new users response");
-	    	console.log(data);
-	      showNewUserGraph('#signupChart', data, 'New Users', '', 'Time', '# of New Users', 'KaizinRumble');
+		    showNewUserGraph('#signupChart', data, 'New Users', '', 'Time', '# of New Users', 'KaizinRumble');
 	    },'jsonp');
 	
 	    $.get("http://l2bq-test.appspot.com/rest/user/retention",function(data){
-	    	console.log("retention response");
-	    	console.log(data);
 	      showRetentionGraph('#retentionChart', data, 'Retention %', '', 'Day', '% Day 0', 'KaizinRumble', 30, totalUsers);
 	    },'jsonp');
 	
 	    // retention_1
 	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/1",function(data){
-	    	console.log("retention day 1 response");
-	    	console.log(data);
 	      $("#retention_1").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_2
 	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/2",function(data){
-	    	console.log("retention day 2 response");
-	    	console.log(data);
 	      $("#retention_2").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_3
 	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/3", function(data){
-	    	console.log("retention day 3 response");
-	    	console.log(data);
 	      $("#retention_3").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_7
 	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/7", function(data){
-	    	console.log("retention day 7 response");
-	    	console.log(data);
 	      $("#retention_7").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_14
 	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/14", function(data){
-	    	console.log("retention day 14 response");
-	    	console.log(data);
 	      $("#retention_14").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_21
 	    $.get("http://l2bq-test.appspot.com/rest/user/retention/day/21", function(data){
-	    	console.log("retention day 21 response");
-	    	console.log(data);
 	      $("#retention_21").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	
 	    // retention_1mon
 	    $.get("http://l2bq-test.appspot.com/rest/user/retention/month/1", function(data){
-	    	console.log("retention month 1 response");
-	    	console.log(data);
 	      $("#retention_1mon").text(Math.round (data.list[0].userCount / totalUsers * 10000 ) / 100 + "%");
 	    },'jsonp');
 	    
