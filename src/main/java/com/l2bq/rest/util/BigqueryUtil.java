@@ -47,6 +47,10 @@ public class BigqueryUtil {
 							item.put(schemaMap.get(idx++), Long.parseLong(field.getV()) );
 						} else if ( type.equalsIgnoreCase("string") ) {
 							item.put(schemaMap.get(idx++), field.getV() );
+						} else if ( type.equalsIgnoreCase("float") ) {
+							item.put(schemaMap.get(idx++), Float.parseFloat(field.getV()) );
+						} else if ( type.equalsIgnoreCase("boolean") ) {
+							item.put(schemaMap.get(idx++), Boolean.parseBoolean(field.getV()) );
 						}
 					}					
 					
