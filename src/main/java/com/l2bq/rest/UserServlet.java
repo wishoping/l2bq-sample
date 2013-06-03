@@ -50,8 +50,13 @@ public class UserServlet
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * Get Total User Count from signup table 
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
 	@GET
-	@Path("/users")
+	@Path("/totalCount")
 	@Produces("application/x-javascript")
 	public JSONWithPadding getTotalUserCountByJSONP(@QueryParam("callback") String callback) {
 		DAUManager man = new DAUManager();
@@ -73,7 +78,296 @@ public class UserServlet
 		
 		return new JSONWithPadding(result.toString(),callback);
 	}
+	
+	/**
+	 * Get DAU Result  
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/dau")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getDAUByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getDAU(); 
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
+	
+	/**
+	 * Get New Users Result  
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/new_users")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getNewUsersByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getNewUsers(); 
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
+	
+	/**
+	 * Get Retention Information Result  
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/retention")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getRetentionByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getRetention(); 
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
+	
+	/**
+	 * Get Retention Information Since 1 day Result  
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/retention/day/1")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getRetentionSince1DayByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getRetentionSince_1_Day(); 
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
+	
+	/**
+	 * Get Retention Information Since 2 day Result  
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/retention/day/2")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getRetentionSince2DaysByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getRetentionSince_2_Days(); 
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
+	
+	/**
+	 * Get Retention Information Since 3 day Result  
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/retention/day/3")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getRetentionSince3DaysByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getRetentionSince_3_Days(); 
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
 
+	/**
+	 * Get Retention Information Since 1 week Result  
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/retention/day/7")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getRetentionSince1WeekByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getRetentionSince_1_Week(); 
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
+	
+	/**
+	 * Get Retention Information Since 2 weeks Result  
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/retention/day/14")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getRetentionSince2WeeksByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getRetentionSince_2_Weeks(); 
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
+	
+	/**
+	 * Get Retention Information Since 3 weeks Result  
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/retention/day/21")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getRetentionSince3WeeksByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getRetentionSince_3_Weeks(); 
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
+	
+	/**
+	 * Get Retention Information Since 1 month Result  
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/retention/month/1")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getRetentionSince1MonthByJSONP(@QueryParam("callback") String callback) {
+		DAUManager man = new DAUManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getRetentionSince_1_Month(); 
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
 	
 	/**
 	 * Application Log write via Log4j 

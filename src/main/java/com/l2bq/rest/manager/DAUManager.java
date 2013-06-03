@@ -45,6 +45,11 @@ public class DAUManager {
 	private final String WHERE_USER = "WHERE userId = '%s'";
 	
 	/**
+	 * Database Name 
+	 */
+	private String databaseName = "l2bq_test";
+	
+	/**
 	 * Constructor
 	 */
 	public DAUManager() {
@@ -326,10 +331,12 @@ public class DAUManager {
 		return null;
 	}
 	
-	public JSONArray getTotalUserCountInfo()
-	{
-		String query = "select count(*) as totalUsers from [l2bq_test.applog_signup]";
-		
+	/**
+	 * Extract Result from QueryResponse
+	 * @param query
+	 * @return
+	 */
+	public JSONArray extractResult(String query) {
 		try {
 			QueryResponse queryResponse = manager.syncQuery(query);
 			if (queryResponse != null && queryResponse.getRows() != null) {
@@ -362,6 +369,146 @@ public class DAUManager {
 		}
 		
 		return null;
+		
+	}
+
+	/**
+	 * Get Total User Count
+	 * @return
+	 */
+	public JSONArray getTotalUserCountInfo()
+	{
+		String query = String.format("SELECT count(*) as totalUsers FROM [%s.applog_signup]", this.databaseName);
+		
+		return extractResult(query);
+	}
+	
+	/**
+	 * Get DAU(Daily Active User) Result 
+	 * @return
+	 */
+	public JSONArray getDAU()
+	{
+		String query = String.format("select STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as f_time, count(*) as loginCount from [%s.applog_login] GROUP BY f_time ORDER BY f_time", this.databaseName);
+		
+		return extractResult(query);
+	}
+	
+	/**
+	 * Get New Users result 
+	 * @return
+	 */
+	public JSONArray getNewUsers()
+	{
+		String query = String.format("select STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as f_time, count(*) as loginCount from [%s.applog_login] GROUP BY f_time ORDER BY f_time", this.databaseName);
+		
+		return extractResult(query);
+	}
+
+	/**
+	 * Get Retention Result 
+	 * @return
+	 */
+	public JSONArray getRetention()
+	{
+		String query = String.format("select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [%s.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP(CURRENT_DATE()), -1, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount order by visitCount desc", this.databaseName);
+		
+		return extractResult(query);
+	}
+	
+	/**
+	 * Get Retention Result since given days 
+	 * @param dayCount number of since days
+	 * @return 
+	 */
+	public JSONArray getRetentionSinceDay(int dayCount)
+	{
+		String query = String.format("select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [%s.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), %d, \"DAY\")) group by userId, day order by userId, day) group by userId) group by visitCount)", this.databaseName, dayCount);
+		
+		return extractResult(query);
+	}
+	
+	/**
+	 * Get Retention Result since given months 
+	 * @param dayCount number of since months
+	 * @return 
+	 */
+	public JSONArray getRetentionSinceMonth(int monthCount)
+	{
+		String query = String.format("select sum(userCount) as userCount from (select visitCount, count(visitCount) as userCount from (select userId, count(userId) as visitCount from (SELECT userId, STRFTIME_UTC_USEC(time*1000, \"%Y-%m-%d\") as day, count(userId) as loginCount FROM [%s.applog_login] where (time*1000) >= TIMESTAMP_TO_USEC(DATE_ADD(TIMESTAMP('2013-06-12'), %d, \"MONTH\")) group by userId, day order by userId, day) group by userId) group by visitCount)", this.databaseName, monthCount);
+		
+		return extractResult(query);
+	}
+
+	/**
+	 * Get Retention Result since 1 day
+	 * @return
+	 */
+	public JSONArray getRetentionSince_1_Day()
+	{
+		return getRetentionSinceDay(1);
+	}
+	
+	/**
+	 * Get Retention Result since 2 days
+	 * @return
+	 */
+	public JSONArray getRetentionSince_2_Days()
+	{
+		return getRetentionSinceDay(2);
+	}
+	
+	/**
+	 * Get Retention Result since 3 days
+	 * @return
+	 */
+	public JSONArray getRetentionSince_3_Days()
+	{
+		return getRetentionSinceDay(3);
+	}
+	
+	/**
+	 * Get Retention Result since 1 week
+	 * @return
+	 */
+	public JSONArray getRetentionSince_1_Week()
+	{
+		return getRetentionSinceDay(7);
+	}
+	
+	/**
+	 * Get Retention Result since 2 weeks 
+	 * @return
+	 */
+	public JSONArray getRetentionSince_2_Weeks()
+	{
+		return getRetentionSinceDay(14);
+	}
+	
+	/**
+	 * Get Retention Result since 3 weeks 
+	 * @return
+	 */
+	public JSONArray getRetentionSince_3_Weeks()
+	{
+		return getRetentionSinceDay(21);
+	}
+	
+	/**
+	 * Get Retention Result since 1 month
+	 * @return
+	 */
+	public JSONArray getRetentionSince_1_Month()
+	{
+		return getRetentionSinceMonth(1);
+	}
+	
+	public String getDatabaseName() {
+		return databaseName;
+	}
+
+	public void setDatabaseName(String databaseName) {
+		this.databaseName = databaseName;
 	}
 
 }
