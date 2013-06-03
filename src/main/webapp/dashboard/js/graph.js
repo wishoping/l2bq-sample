@@ -224,7 +224,7 @@ function loadDashboard() {
 	  },'jsonp');
 }
 
-function loadHttpLogs() {
+function _loadHttpLogs() {
     waitingDialog({title: "Please wait", message: "We are updating log data."});
     
 	// Total HTTP Logs Count
@@ -285,6 +285,77 @@ function loadHttpLogs() {
 
 	// Info
 	$.get("http://l2bq-test.appspot.com/rest/query", {"query":"select method, timestamp, resource, ip, versionId from [l2bq_test.http_access_log] where level = 'Info' order by timestamp desc limit " + limit},function(data){
+		var resultHtml = "";
+		for (var i in data.list) {
+			var date = new Date(data.list[i].timestamp / 1000);
+			var row = "<tr><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr>";
+			resultHtml += row;
+		}
+		$("#tableInfoLogs").html(resultHtml);
+	},'jsonp');	
+}
+
+function loadHttpLogs() {
+    waitingDialog({title: "Please wait", message: "We are updating log data."});
+    
+	// Total HTTP Logs Count
+	$.get("http://l2bq-test.appspot.com/rest/http/totalCount", function(data){
+	    var totalHttpLogs = data.list[0].totalHttpLogs;
+	    $("#totalHttpLogs").text(totalHttpLogs);
+	},'jsonp');	
+	
+	
+	$.get("http://l2bq-test.appspot.com/rest/http/stats",function(data){
+		for (var i in data.list) {
+			var level = data.list[i].level;
+			if (level == "Info") {
+				$("#totalHttpLogsInfo").text(data.list[i].levelCount);
+			}
+			else if (level == "Warning") {
+				$("#totalHttpLogsWarning").text(data.list[i].levelCount);
+			}
+			else if (level == "Critical") {
+				$("#totalHttpLogsCritical").text(data.list[i].levelCount);
+			}
+			else if (level == "Debug") {
+				$("#totalHttpLogsDebug").text(data.list[i].levelCount);
+			}
+			else {
+				$("#totalHttpLogsUndefined").text(data.list[i].levelCount);
+			}
+		}
+		
+	    closeWaitingDialog();
+	},'jsonp');	
+	
+	
+	// 로그 정보들
+	var limit = 5;
+	
+	// Critical
+	$.get("http://l2bq-test.appspot.com/rest/http/critical/" + limit, function(data){
+		var resultHtml = "";
+		for (var i in data.list) {
+			var date = new Date(data.list[i].timestamp / 1000);
+			var row = "<tr><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr>";
+			resultHtml += row;
+		}
+		$("#tableCriticalLogs").html(resultHtml);
+	},'jsonp');	
+
+	// Warning
+	$.get("http://l2bq-test.appspot.com/rest/http/warning/" + limit, function(data){
+		var resultHtml = "";
+		for (var i in data.list) {
+			var date = new Date(data.list[i].timestamp / 1000);
+			var row = "<tr><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr>";
+			resultHtml += row;
+		}
+		$("#tableWarningLogs").html(resultHtml);
+	},'jsonp');	
+
+	// Info
+	$.get("http://l2bq-test.appspot.com/rest/http/info/" + limit, function(data){
 		var resultHtml = "";
 		for (var i in data.list) {
 			var date = new Date(data.list[i].timestamp / 1000);
