@@ -54,7 +54,10 @@
                 <a href="#" id="navDashboard"><i class="icon-play"></i> Dashboard</a>
               </li>
               <li id="liHttpLogs">
-                <a href="#" id="navHttpLogs"><i class="icon-filter"></i> HTTP Logs</a>
+                <a href="#" id="navHttpLogs"><i class="icon-filter"></i> HTTP Logs - Summary</a>
+              </li>
+              <li id="liHttpLogsDetail">
+                <a href="#" id="navHttpLogsDetail"><i class="icon-list"></i> HTTP Logs - Detail</a>
               </li>
             </ul>
           </nav>
@@ -262,7 +265,34 @@
                 </section>
                 
           </div>
-          
+   
+		<div id="content" name="divHttpLogsDetail" style="display:none">
+                <!-- Navbar
+                ================================================== -->
+                <section id="stats">
+                  <header>
+                    <div class="pull-right">
+                      <input type="search" id="inputSearch" style="margin-bottom:0px;"> <a class="btn btn-small" id="btnSearchHttpLogsDetail"><i class="icon-search"></i>Search</a>
+                    </div>
+                    <h1>HTTP Logs - Detail</h1>
+                  </header>
+                  <table class="table table-striped full-section table-hover">
+                    <thead>
+                      <tr>
+                        <th>Time</th>
+                        <th>IP</th>
+                        <th>Method</th>
+                        <th>Resource</th>
+                        <th>Version</th>                        
+                      </tr>
+                    </thead>
+                    <tbody id='tableSearchLogs'>
+                    </tbody>
+                  </table>
+                </section>
+                
+          </div>
+             
         </div>
       </div>
     </div><!-- /container -->
@@ -289,9 +319,11 @@
 	function showDashboard() {
 		$("#liDashboard").addClass("selected");
 		$("#liHttpLogs").removeClass("selected");
+		$("#liHttpLogsDetail").removeClass("selected");
 		
 		$('[name="divDashBoard"]').show();
 		$('[name="divHttpLogs"]').hide();
+		$('[name="divHttpLogsDetail"]').hide();
 	
 		if (!isDashboardLoaded) {
 			isDashboardLoaded = true;
@@ -302,15 +334,27 @@
 	function showHttpLogs() {
 		$("#liDashboard").removeClass("selected");
 		$("#liHttpLogs").addClass("selected");
+		$("#liHttpLogsDetail").removeClass("selected");
 		
 		$('[name="divDashBoard"]').hide();
 		$('[name="divHttpLogs"]').show();
-
+		$('[name="divHttpLogsDetail"]').hide();
+		
 		if (!isHttpLogsLoaded) {
 			isHttpLogsLoaded = true;
 			
 			loadHttpLogs();
 		}			
+	}
+	
+	function showHttpLogsDetail() {
+		$("#liDashboard").removeClass("selected");
+		$("#liHttpLogs").removeClass("selected");
+		$("#liHttpLogsDetail").addClass("selected");
+		
+		$('[name="divDashBoard"]').hide();
+		$('[name="divHttpLogs"]').hide();
+		$('[name="divHttpLogsDetail"]').show();			
 	}
 	
     $(function () {
@@ -347,7 +391,10 @@
 			showHttpLogs();
 		});
 
-
+		$("#navHttpLogsDetail").click(function() {
+			showHttpLogsDetail();
+		});
+		
 		$("#btnRefreshDashboard").click(function() {
 			loadDashboard();
 		});
@@ -356,6 +403,9 @@
 			loadHttpLogs();
 		});
 		
+		$("#btnSearchHttpLogsDetail").click(function() {
+			alert($("#inputSearch").val());
+		});
     });
     
     function waitingDialog(waiting) { // I choose to allow my loading screen dialog to be customizable, you don't have to
