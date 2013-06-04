@@ -13,7 +13,8 @@
       <![endif]-->
 
       <link href="css/inspiritas.css" rel="stylesheet">
-	<link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet">
+	  <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet">
+      <link href="css/style.css" rel="stylesheet">
 	
 	<style type="text/css">
 	#loadingScreen {
@@ -122,7 +123,7 @@
                   <div class="sub-header">
                     <h2>Retention Tables</h2>
                   </div>
-                  <table class="table table-striped full-section table-hover">
+                  <table class="table table-striped full-section">
                     <thead>
                       <tr>
                         <th>1 day</th>
@@ -192,7 +193,7 @@
                   <div class="sub-header">
                     <h2>Latest Critical Logs</h2>
                   </div>
-                  <table class="table table-striped full-section table-hover">
+                  <table class="table table-striped full-section">
                     <thead>
                       <tr>
                         <th>Time</th>
@@ -211,7 +212,7 @@
                   <div class="sub-header">
                     <h2>Latest Warning Logs</h2>
                   </div>
-                  <table class="table table-striped full-section table-hover">
+                  <table class="table table-striped full-section">
                     <thead>
                       <tr>
                         <th>Time</th>
@@ -230,7 +231,7 @@
                   <div class="sub-header">
                     <h2>Latest Info Logs</h2>
                   </div>
-                  <table class="table table-striped full-section table-hover">
+                  <table class="table table-striped full-section">
                     <thead>
                       <tr>
                         <th>Time</th>
@@ -249,7 +250,7 @@
                   <div class="sub-header">
                     <h2>Latest Debug Logs</h2>
                   </div>
-                  <table class="table table-striped full-section table-hover">
+                  <table class="table table-striped full-section">
                     <thead>
                       <tr>
                         <th>Time</th>
@@ -276,7 +277,7 @@
                     </div>
                     <h1>HTTP Logs - Detail</h1>
                   </header>
-                  <table class="table table-striped full-section table-hover">
+                  <table class="table table-striped full-section">
                     <thead>
                       <tr>
                         <th>Time</th>
@@ -357,6 +358,7 @@
 		$('[name="divHttpLogsDetail"]').show();			
 	}
 	
+    
     $(function () {
 
 	    // create the loading window and set autoOpen to false
@@ -381,7 +383,7 @@
 	    }); // end of dialog	
 
 	    
-    	showDashboard();
+    	//showDashboard();
     	
 		$("#navDashboard").click(function() {
 			showDashboard();
@@ -406,6 +408,7 @@
 		$("#btnSearchHttpLogsDetail").click(function() {
 			alert($("#inputSearch").val());
 		});
+		
     });
     
     function waitingDialog(waiting) { // I choose to allow my loading screen dialog to be customizable, you don't have to

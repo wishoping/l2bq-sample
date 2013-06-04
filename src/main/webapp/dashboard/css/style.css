@@ -1,0 +1,17 @@
+.ul_applog
+{
+	list-style-type: none;
+	margin-top: 5px;
+}
+
+.ul_applog li {
+	margin-bottom: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.applog_span {
+	margin-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;	
+}

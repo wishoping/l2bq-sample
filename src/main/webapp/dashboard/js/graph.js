@@ -337,7 +337,7 @@ function loadHttpLogs() {
 		var resultHtml = "";
 		for (var i in data.list) {
 			var date = new Date(data.list[i].timestamp / 1000);
-			var row = "<tr><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr>";
+			var row = "<tr onClick='javascript:showDetailedInfo(" + data.list[i].timestamp + "); return false;'><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr><tr id='detail_" + data.list[i].timestamp + "' style='display:none'></tr>";
 			resultHtml += row;
 		}
 		$("#tableCriticalLogs").html(resultHtml);
@@ -348,7 +348,7 @@ function loadHttpLogs() {
 		var resultHtml = "";
 		for (var i in data.list) {
 			var date = new Date(data.list[i].timestamp / 1000);
-			var row = "<tr><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr>";
+			var row = "<tr onClick='javascript:showDetailedInfo(" + data.list[i].timestamp + "); return false;'><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr><tr id='detail_" + data.list[i].timestamp + "' style='display:none'></tr>";
 			resultHtml += row;
 		}
 		$("#tableWarningLogs").html(resultHtml);
@@ -359,10 +359,52 @@ function loadHttpLogs() {
 		var resultHtml = "";
 		for (var i in data.list) {
 			var date = new Date(data.list[i].timestamp / 1000);
-			var row = "<tr><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr>";
+			var row = "<tr onClick='javascript:showDetailedInfo(" + data.list[i].timestamp + "); return false;'><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr><tr id='detail_" + data.list[i].timestamp + "' style='display:none'></tr>";
 			resultHtml += row;
 		}
 		$("#tableInfoLogs").html(resultHtml);
 	},'jsonp');	
 }
 
+function showDetailedInfo(index) 
+{
+    var html = $("#detail_" + index).html();
+    if (html.length != 0) {
+    	if ($("#detail_" + index).is(":visible") == true) {
+    		$("#detail_" + index).hide();	
+    	}
+    	else {
+    		$("#detail_" + index).show();
+    	}
+    	return;
+    }
+    else {
+        waitingDialog({title: "Please wait", message: "loading..."});
+        
+    	$.get("http://l2bq-test.appspot.com/rest/http/detail/" + index, function(data){
+    		
+    	    closeWaitingDialog();
+    	    
+    		// There is only one result which is matched with index
+    		if (data.isSuccess == true) {
+    			var resultHtml = "";
+    			var item = data.list[0];
+    			var appLogsHtml = "<ul class='ul_applog'>";
+    			var app_logs = eval(item.app_logs);
+    			for (var i in app_logs) {
+    				var date = new Date(app_logs[i].timeUsec / 1000);
+    				var row = "<li><code>" + app_logs[i].logLevel + "</code> <span class='label'>" + date + "</span><br><span class='applog_span'>" + app_logs[i].logMessage.replace("\n", "<br>") + "</div></li>";
+    				appLogsHtml += row;
+    			}
+    			
+    			appLogsHtml += "</ul>";
+    			
+    			resultHtml = '<td colspan=5><table style="table-layout: fixed; width: 100%" cellspacing="0" cellpadding="8" border="0"><tr><td colspan=2 style="word-wrap: break-word;">' + appLogsHtml + '</td></tr><tr><td width=150>httpStatus</td><td>' + item.httpstatus + '</td></tr><tr><td width=150>method</td><td>' + item.method + '</td></tr><tr><td width=150>httpVersion</td><td>' + item.httpversion + '</td></tr><tr><td width=150>instanceKey</td><td>' + item.instancekey + '</td></tr><tr><td width=150>apiMcycles</td><td>' + item.apimcycles + '</td></tr><tr><td width=150>cost</td><td>' + item.cost + '</td></tr><tr><td width=150>responseSize</td><td>' + item.responsesize + '</td></tr><tr><td width=150>mcycles</td><td>' + item.mcycles + '</td></tr><tr><td width=150>loadingRequest</td><td>' + item.loadingrequest + '</td></tr><tr><td width=150>pendingTimeUsec</td><td>' + item.pendingtimeusec + '</td></tr><tr><td width=150>latencyUsec</td><td>' + item.latencyusec + '</td></tr><tr><td width=150>timestamp</td><td>' + item.timestamp + '</td></tr><tr><td width=150>host</td><td>' + item.host + '</td></tr><tr><td width=150>path</td><td>' + item.path + '</td></tr><tr><td width=150>nickname</td><td>' + item.nickname + '</td></tr><tr><td width=150>ip</td><td>' + item.ip + '</td></tr><tr><td width=150>userAgent</td><td>' + item.useragent + '</td></tr><tr><td width=150>versionId</td><td>' + item.versionid + '</td></tr><tr><td width=150>level</td><td>' + item.level + '</td></tr></table></td>';
+
+    			$("#detail_" + index).show();
+    			$("#detail_" + index).html(resultHtml);
+
+    		}
+    	},'jsonp');
+    }
+}
