@@ -408,3 +408,43 @@ function showDetailedInfo(index)
     	},'jsonp');
     }
 }
+
+function searchHTTPLogs(keyword)
+{
+	if ( keyword == null || keyword == undefined || keyword == "" ) {
+		alert('Search Keyword is invalid.');
+		return;
+	}
+		
+	waitingDialog({title: "Please wait", message: "loading..."});
+
+	var limit = 10;
+	keyword = keyword.replace(" ", "%20");
+
+	// Clear previous search result 
+	$("#tableSearchLogs").html("");
+
+	$.get("http://l2bq-test.appspot.com/rest/http/search/" + keyword + "/" + limit, function(data){
+    		
+    	    closeWaitingDialog();
+
+    		// There is only one result which is matched with index
+    		if (data.isSuccess == true) {
+				var resultHtml = "";
+				for (var i in data.list) {
+					var date = new Date(data.list[i].timestamp / 1000);
+					var row = "<tr onClick='javascript:showDetailedInfo(" + data.list[i].timestamp + "); return false;'><td>" + date + "</td><td>" + data.list[i].ip + "</td><td>" + data.list[i].method + "</td><td>" + data.list[i].resource.substring(0,100) + "</td><td>" + data.list[i].versionId + "</td></tr><tr id='detail_" + data.list[i].timestamp + "' style='display:none'></tr>";
+					resultHtml += row;
+				}
+				if ( resultHtml == "" ) {
+					alert('There is no search result.');
+				} else {
+					$("#tableSearchLogs").html(resultHtml);	
+				}
+				
+    		} else {
+    			alert('There is no search result.');
+    		}
+    	},'jsonp');
+
+}

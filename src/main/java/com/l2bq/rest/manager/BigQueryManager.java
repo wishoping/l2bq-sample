@@ -20,9 +20,8 @@ import com.google.api.services.bigquery.model.JobConfigurationQuery;
 import com.google.api.services.bigquery.model.JobReference;
 import com.google.api.services.bigquery.model.QueryRequest;
 import com.google.api.services.bigquery.model.QueryResponse;
-import com.google.api.services.bigquery.model.TableCell;
+
 import com.google.api.services.bigquery.model.TableRow;
-import com.google.api.services.bigquery.model.TableRow.F;
 
 /**
  * BigQuery Manager class 

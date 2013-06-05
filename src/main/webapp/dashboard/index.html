@@ -406,7 +406,10 @@
 		});
 		
 		$("#btnSearchHttpLogsDetail").click(function() {
-			alert($("#inputSearch").val());
+			// alert($("#inputSearch").val());
+      console.log("Search Keyword : " + $("#inputSearch").val());
+
+      searchHTTPLogs($("#inputSearch").val());
 		});
 		
     });
