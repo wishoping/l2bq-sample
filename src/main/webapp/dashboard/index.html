@@ -21,6 +21,9 @@
 	    background: url(images/loading.gif) no-repeat 5px 8px;
 	    padding-left: 25px;
 	}
+  .row-spacing {
+    height:20px
+  }
 	</style>
     </head>
 
@@ -57,8 +60,8 @@
               <li id="liHttpLogs">
                 <a href="#" id="navHttpLogs"><i class="icon-filter"></i> HTTP Logs - Summary</a>
               </li>
-              <li id="liHttpLogsDetail">
-                <a href="#" id="navHttpLogsDetail"><i class="icon-list"></i> HTTP Logs - Detail</a>
+              <li id="liHttpLogsSearch">
+                <a href="#" id="navHttpLogsSearch"><i class="icon-list"></i> HTTP Logs - Search</a>
               </li>
             </ul>
           </nav>
@@ -267,16 +270,35 @@
                 
           </div>
    
-		<div id="content" name="divHttpLogsDetail" style="display:none">
+		<div id="content" name="divHttpLogsSearch" style="display:none">
                 <!-- Navbar
                 ================================================== -->
                 <section id="stats">
                   <header>
                     <div class="pull-right">
-                      <input type="search" id="inputSearch" style="margin-bottom:0px;"> <a class="btn btn-small" id="btnSearchHttpLogsDetail"><i class="icon-search"></i>Search</a>
+                      <!--<input type="search" id="inputSearch" style="margin-bottom:0px;"> <a class="btn btn-small" id="btnSearchHttpLogs"><i class="icon-search"></i>Search</a> -->
                     </div>
-                    <h1>HTTP Logs - Detail</h1>
+                    <h1>HTTP Logs - Search</h1>
                   </header>
+                  
+                  <div class="row-spacing"></div>
+                  
+                  <!-- Saerch Keyword Input Box -->
+                  <div class="full-section">
+                    <div class="row" style="text-align:center">
+                      <input type="search" id="inputSearch" style="margin-bottom:0px;width:500px;"> <a class="btn btn-small" id="btnSearchHttpLogs"><i class="icon-search"></i>Search</a>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="row-spacing"></section>
+
+                <section>
+                  
+                    <div class="sub-header">
+                      <h2>Search Result</h2>
+                    </div>
+                  
                   <table class="table table-striped full-section">
                     <thead>
                       <tr>
@@ -320,11 +342,11 @@
 	function showDashboard() {
 		$("#liDashboard").addClass("selected");
 		$("#liHttpLogs").removeClass("selected");
-		$("#liHttpLogsDetail").removeClass("selected");
+		$("#liHttpLogsSearch").removeClass("selected");
 		
 		$('[name="divDashBoard"]').show();
 		$('[name="divHttpLogs"]').hide();
-		$('[name="divHttpLogsDetail"]').hide();
+		$('[name="divHttpLogsSearch"]').hide();
 	
 		if (!isDashboardLoaded) {
 			isDashboardLoaded = true;
@@ -335,11 +357,11 @@
 	function showHttpLogs() {
 		$("#liDashboard").removeClass("selected");
 		$("#liHttpLogs").addClass("selected");
-		$("#liHttpLogsDetail").removeClass("selected");
+		$("#liHttpLogsSearch").removeClass("selected");
 		
 		$('[name="divDashBoard"]').hide();
 		$('[name="divHttpLogs"]').show();
-		$('[name="divHttpLogsDetail"]').hide();
+		$('[name="divHttpLogsSearch"]').hide();
 		
 		if (!isHttpLogsLoaded) {
 			isHttpLogsLoaded = true;
@@ -348,14 +370,14 @@
 		}			
 	}
 	
-	function showHttpLogsDetail() {
+	function showHttpLogsSearch() {
 		$("#liDashboard").removeClass("selected");
 		$("#liHttpLogs").removeClass("selected");
-		$("#liHttpLogsDetail").addClass("selected");
+		$("#liHttpLogsSearch").addClass("selected");
 		
 		$('[name="divDashBoard"]').hide();
 		$('[name="divHttpLogs"]').hide();
-		$('[name="divHttpLogsDetail"]').show();			
+		$('[name="divHttpLogsSearch"]').show();			
 	}
 	
     
@@ -372,6 +394,14 @@
 	        modal: true,
 	        buttons: {},
 	        resizable: false,
+          show: {
+            effect: "explode",
+            duration: 300
+          },
+          hide: {
+            effect: "explode",
+            duration: 500
+          },
 	        open: function() {
 	            // scrollbar fix for IE
 	            $('body').css('overflow','hidden');
@@ -393,8 +423,8 @@
 			showHttpLogs();
 		});
 
-		$("#navHttpLogsDetail").click(function() {
-			showHttpLogsDetail();
+		$("#navHttpLogsSearch").click(function() {
+			showHttpLogsSearch();
 		});
 		
 		$("#btnRefreshDashboard").click(function() {
@@ -405,12 +435,30 @@
 			loadHttpLogs();
 		});
 		
-		$("#btnSearchHttpLogsDetail").click(function() {
+		$("#btnSearchHttpLogs").click(function() {
 			// alert($("#inputSearch").val());
-      console.log("Search Keyword : " + $("#inputSearch").val());
-
-      searchHTTPLogs($("#inputSearch").val());
+      // console.log("Search Keyword : " + $("#inputSearch").val());
+      var keyword = $("#inputSearch").val();
+      if ( keyword == "" ) {
+        alert('Please Enter Search Keyword');
+        return;
+      }
+      searchHTTPLogs(keyword);
 		});
+
+    $("#inputSearch").keydown( function(e) {
+      
+      if ( e.keyCode == 13 ) {   // Enter Key 
+        var keyword = $("#inputSearch").val();
+        if ( keyword == "" ) {
+          alert('Please Enter Search Keyword');
+          return true;
+        }
+        searchHTTPLogs(keyword);
+
+        return true;
+      }
+    });
 		
     });
     
