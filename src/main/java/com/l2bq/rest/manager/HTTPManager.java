@@ -11,6 +11,7 @@ public class HTTPManager {
 	private final String CRITICAL_LEVEL = "Critical";
 	private final String WARNING_LEVEL = "Warning";
 	private final String INFO_LEVEL = "Info";
+	private final String DEBUG_LEVEL = "Debug";
 	
 	/**
 	 * Database Name 
@@ -44,9 +45,40 @@ public class HTTPManager {
 		return BigqueryUtil.extractResult(this.manager, query);
 	}
 	
+	/**
+	 * Get HTTP Log by Timestamp
+	 * @param index
+	 * @return
+	 */
 	public JSONArray getDetailedHttpLogs(long index)
 	{
 		String query = String.format("select * from [%s.http_access_log] where timestamp = %d", this.databaseName, index);
+		
+		return BigqueryUtil.extractResult(this.manager, query);
+	}
+	
+	public JSONArray getHTTPAppLogSearchResultByKeyword(String keyword, int limit) {
+		if ( keyword == null || keyword.isEmpty() )
+			return null;
+		if ( limit <= 0 )
+			return null;
+		
+		StringBuilder condition = new StringBuilder();
+		if ( keyword.contains(" ") ) {
+			boolean isFirst = true;
+			for ( String k : keyword.split(" ")) {
+				if ( !isFirst ) {
+					condition.append("AND ");
+				} else {
+					isFirst = false;
+				}
+				condition.append(String.format( "REGEXP_MATCH(app_logs, r'.*%s.*')", k));
+			}
+		} else {
+			condition.append(String.format( "REGEXP_MATCH(app_logs, r'.*%s.*')", keyword));
+		}
+		
+		String query = String.format("select * from [%s.http_access_log] WHERE %s limit %d", this.databaseName, condition.toString(), limit);
 		
 		return BigqueryUtil.extractResult(this.manager, query);
 	}
@@ -93,6 +125,16 @@ public class HTTPManager {
 	public JSONArray getHttpInfoLogs(int limit)
 	{
 		return getHttpsLogsByLevel(INFO_LEVEL, limit);
+	}
+	
+	/**
+	 * Get Debug Level HTTP Logs
+	 * @param limit
+	 * @return
+	 */
+	public JSONArray getHttpDebugLogs(int limit)
+	{
+		return getHttpsLogsByLevel(DEBUG_LEVEL, limit);
 	}
 
 	public String getDatabaseName() {

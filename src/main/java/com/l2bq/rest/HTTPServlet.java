@@ -197,6 +197,37 @@ public class HTTPServlet {
 		
 		return new JSONWithPadding(result.toString(),callback);
 	}
+	
+	/**
+	 * Get Search Result by Keyword and limit count
+	 * @param callback javascript callback function name from client 
+	 * @param keyword Search keyword( If contain spaces, we will use splited keyword by spaces as 'and' condition
+	 * @param limit row limit count
+	 * @return
+	 */
+	@GET
+	@Path("/search/{keyword}/{limit}")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getHTTPAppLogSearchResultByKeyword(@QueryParam("callback") String callback, @PathParam("keyword") String keyword, @PathParam("limit") int limit) {
+		HTTPManager man = new HTTPManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getHTTPAppLogSearchResultByKeyword(keyword, limit);
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
 
 	
 }
