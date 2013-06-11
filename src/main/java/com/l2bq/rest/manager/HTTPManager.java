@@ -1,5 +1,8 @@
 package com.l2bq.rest.manager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONArray;
 
 import com.l2bq.rest.util.BigqueryUtil;
@@ -57,8 +60,9 @@ public class HTTPManager {
 		return BigqueryUtil.extractResult(this.manager, query);
 	}
 	
-	public JSONArray getHTTPAppLogSearchResultByKeyword(String keyword, int limit) {
-		if ( keyword == null || keyword.isEmpty() )
+	public JSONArray getHTTPAppLogSearchResultByKeyword(String option, String keyword, int limit) {
+		if ( keyword == null || keyword.isEmpty() || 
+			 option == null || option.isEmpty() )
 			return null;
 		if ( limit <= 0 )
 			return null;
@@ -72,10 +76,10 @@ public class HTTPManager {
 				} else {
 					isFirst = false;
 				}
-				condition.append(String.format( "REGEXP_MATCH(app_logs, r'.*%s.*')", k));
+				condition.append(String.format( "REGEXP_MATCH(%s, r'.*%s.*')", option, k));
 			}
 		} else {
-			condition.append(String.format( "REGEXP_MATCH(app_logs, r'.*%s.*')", keyword));
+			condition.append(String.format( "REGEXP_MATCH(%s, r'.*%s.*')", option, keyword));
 		}
 		
 		String query = String.format("select * from [%s.http_access_log] WHERE %s limit %d", this.databaseName, condition.toString(), limit);
@@ -135,6 +139,17 @@ public class HTTPManager {
 	public JSONArray getHttpDebugLogs(int limit)
 	{
 		return getHttpsLogsByLevel(DEBUG_LEVEL, limit);
+	}
+	
+	/**
+	 * 검색 조건을 위한 HTTP Status 의 종류 Return
+	 * @return
+	 */
+	public JSONArray getHttpStatusFacet() 
+	{
+		String query = String.format("select httpStatus from [%s.http_access_log] group by httpStatus order by httpStatus", this.databaseName);
+		
+		return BigqueryUtil.extractResult(this.manager, query);
 	}
 
 	public String getDatabaseName() {

@@ -201,18 +201,19 @@ public class HTTPServlet {
 	/**
 	 * Get Search Result by Keyword and limit count
 	 * @param callback javascript callback function name from client 
+	 * @param option Search Option ( applog and http table field )
 	 * @param keyword Search keyword( If contain spaces, we will use splited keyword by spaces as 'and' condition
 	 * @param limit row limit count
 	 * @return
 	 */
 	@GET
-	@Path("/search/{keyword}/{limit}")
+	@Path("/search/{option}/{keyword}/{limit}")
 	@Produces("application/x-javascript")
-	public JSONWithPadding getHTTPAppLogSearchResultByKeyword(@QueryParam("callback") String callback, @PathParam("keyword") String keyword, @PathParam("limit") int limit) {
+	public JSONWithPadding getHTTPAppLogSearchResultByKeyword(@QueryParam("callback") String callback, @PathParam("option") String option, @PathParam("keyword") String keyword, @PathParam("limit") int limit) {
 		HTTPManager man = new HTTPManager();
 		JSONArrayResult result = new JSONArrayResult();
 		
-		JSONArray dataList = man.getHTTPAppLogSearchResultByKeyword(keyword, limit);
+		JSONArray dataList = man.getHTTPAppLogSearchResultByKeyword(option, keyword, limit);
 		
 		if ( dataList != null ) {
 			result.setList(dataList);
@@ -229,5 +230,33 @@ public class HTTPServlet {
 		return new JSONWithPadding(result.toString(),callback);
 	}
 
+	/**
+	 * Get HTTP Status Codes 
+	 * @param callback javascript callback function name from client 
+	 * @return
+	 */
+	@GET
+	@Path("/search/httpStatusCodes")
+	@Produces("application/x-javascript")
+	public JSONWithPadding getHttpStatusCodes(@QueryParam("callback") String callback) {
+		HTTPManager man = new HTTPManager();
+		JSONArrayResult result = new JSONArrayResult();
+		
+		JSONArray dataList = man.getHttpStatusFacet();
+		
+		if ( dataList != null ) {
+			result.setList(dataList);
+			result.setMsg("success");
+			result.setSuccess(true);
+			
+			return new JSONWithPadding(result.toString(),callback);
+		}
+		
+		result.setList(null);
+		result.setMsg("failed with null result");
+		result.setSuccess(false);
+		
+		return new JSONWithPadding(result.toString(),callback);
+	}
 	
 }

@@ -285,8 +285,33 @@
                   
                   <!-- Saerch Keyword Input Box -->
                   <div class="full-section">
-                    <div class="row" style="text-align:center">
-                      <input type="search" id="inputSearch" style="margin-bottom:0px;width:500px;"> <a class="btn btn-small" id="btnSearchHttpLogs"><i class="icon-search"></i>Search</a>
+                    <div class="row">
+                      <div class="span3" style="text-align:right;">
+                        <div class="dropdown" style="top:5px;">
+                          <a class="dropdown-toggle" id="dropSearchOption" role="button" data-toggle="dropdown" href="#">Option - App Log <b class="caret"></b></a>
+                          <ul id="menu1" class="dropdown-menu active" role="menu" aria-labelledby="drop4" style="left:100px;min-width:120px;">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="selectSearchOption('App Log')">App Log</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="selectSearchOption('Log Level')">Log Level</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="selectSearchOption('Http Status')">Http Status</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="selectSearchOption('Method')">Method</a></li>
+                            <li role="presentation" class="divider"></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="selectSearchOption('IP')">IP</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="selectSearchOption('Resource')">Resource</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="selectSearchOption('Host')">Host</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#" onclick="selectSearchOption('User Agent')">User Agent</a></li>
+                            
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="span9">
+                        <input type="search" id="inputSearch" style="margin-bottom:0px;width:500px;"> 
+                        <a class="btn btn-small" id="btnSearchHttpLogs"><i class="icon-search"></i>Search</a>
+                      </div>
+                      
+                    </div>
+                    <div class="row" style="text-align:center;display:none;">
+                      <span id="opIP">ip</span>, host, resource, https status code, user Agent, log level, method
                     </div>
                   </div>
                 </section>
@@ -332,12 +357,37 @@
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <script src="bootstrap/js/bootstrap-dropdown.js"></script>
     <script src="bootstrap/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/js/bootstrap-popover.js"></script>
     <script src="js/graph.js"></script>
 
 
     <script type="text/javascript">
 	var isDashboardLoaded = false;
 	var isHttpLogsLoaded = false;
+
+  /**
+   * Search Options
+   *  - App Log : applog
+   *  - Log Level : loglevel
+   *  - Http Status : httpstatus
+   *  - Method : method
+   *  - IP : ip
+   *  - Resource : resource
+   *  - Host : host
+   *  - User Agent : useragent
+   */
+  var searchOption = "app_logs";
+  var SEARCH_OPTIONS = {
+    'App Log' : 'app_logs',
+    'Log Level' : 'level',
+    'Http Status' : 'httpStatus',
+    'Method' : 'method',
+    'IP' : 'ip',
+    'Resource' : 'resource',
+    'Host' : 'host',
+    'User Agent' : 'userAgent'
+  };
 	
 	function showDashboard() {
 		$("#liDashboard").addClass("selected");
@@ -443,8 +493,12 @@
         alert('Please Enter Search Keyword');
         return;
       }
-      searchHTTPLogs(keyword);
+      searchHTTPLogs(searchOption, keyword);
 		});
+
+    $("#opIP").click(function() {
+      $("#opIP").popover('show');
+    });
 
     $("#inputSearch").keydown( function(e) {
       
@@ -454,11 +508,12 @@
           alert('Please Enter Search Keyword');
           return true;
         }
-        searchHTTPLogs(keyword);
+        searchHTTPLogs(searchOption, keyword);
 
         return true;
       }
     });
+
 		
     });
     
@@ -469,6 +524,14 @@
     }
     function closeWaitingDialog() {
         $("#loadingScreen").dialog('close');
+    }
+
+
+    // Select Search Option in DropDown List
+    function selectSearchOption(option) {
+      $("#dropSearchOption").html('Option - ' + option + " <b class='caret'></b>");
+
+      searchOption = SEARCH_OPTIONS[option];
     }
 
     

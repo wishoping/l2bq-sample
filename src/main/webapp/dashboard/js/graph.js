@@ -409,7 +409,7 @@ function showDetailedInfo(index)
     }
 }
 
-function searchHTTPLogs(keyword)
+function searchHTTPLogs(option, keyword)
 {
 	if ( keyword == null || keyword == undefined || keyword == "" ) {
 		alert('Search Keyword is invalid.');
@@ -424,7 +424,7 @@ function searchHTTPLogs(keyword)
 	// Clear previous search result 
 	$("#tableSearchLogs").html("");
 
-	$.get("http://l2bq-test.appspot.com/rest/http/search/" + keyword + "/" + limit, function(data){
+	$.get("http://l2bq-test.appspot.com/rest/http/search/" + option + "/" + keyword + "/" + limit, function(data){
     		
     	    closeWaitingDialog();
 
